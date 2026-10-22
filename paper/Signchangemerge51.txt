@@ -1,0 +1,1216 @@
+
+
+===== PAGE 1 =====
+
+ON SIGN P A TTERNS OF FOURIER COEFFICIENTS OF THET A
+QUOTIENTS
+KOUSTAV BANERJEE, KATHRIN BRINGMANN, BERNHARD HEIM, AND BEN KANE
+Abstract. Motivated by conjectures of Schlosser and Zhou on sign patterns of Fourier coeﬃcients
+of inﬁnite products, we study two families of theta quotients and their positive integral powers.
+We determine asymptotic formulas for their Fourier coeﬃcients and use them to obtain explicit
+eventual periodic sign patterns. Our results provide new instances of the sign phenomena observed
+by Schlosser and Zhou and illustrate how dominant cusps determine the resulting sign patterns.
+1. Introduction and statement of results
+In this paper, for m∈ N≥3 and 𝓁∈ Z\{ 0}, we study the sign pattern of the Fourier coeﬃcients
+for the quotient (
+q,qm−1;qm)𝓁∞
+(q2,qm−2;qm)𝓁∞. (1.1)
+Here and throughout,|q|< 1 and fora∈ C andn∈ N0∪{∞}, we set (a)n=(a;q)n:=∏n−1j=0 (1−aqj).
+Forr∈ N anda1,...,a r∈ C, we let (a1,...,a r)n := (a1,...,a r;q)n := (a1)n... (ar)n. The primary
+motivation for considering this problem goes back to the sign pattern of Fourier coeﬃcients of the
+Rogers–Ramanujan continued fraction
+R(q) := q
+1
+5
+1 + q
+1 + q2
+1 + q3
+1 +···
+=q
+1
+5
+(q,q 4;q5)∞
+(q2,q 3;q5)∞.
+In this case, using the Circle method, the sign pattern of then-th Fourier coeﬃcient forn suﬃciently
+large was proved by Richmond and Szekeres [16, (3.9)]. Andrews [2, Corollary 1] then gave a proof
+for the sign pattern of all coeﬃcients viaq-series dissections. Later, using dissections of Ramanujan’s
+theta functions, Ramanathan [15, Theorem 5 and Theorem 6] and Chan–Yesilyurt [7, Theorem 1.2
+and Theorem 1.3] studied periodicity of the sign of Fourier coeﬃcients for a family of inﬁnite
+products resembling (1.1). Recently, using similar techniques, Baruah and Sarma [3, Theorem 2
+and Theorem 3] investigated the sign pattern of the coeﬃcients of (1.1) with m = 5 and 𝓁 =±5.
+Using the Circle method, Schlosser and Zhou [17] studied the sign pattern of Fourier coeﬃcients
+of theta quotients similar to (1.1) and made several conjectures. Three of the authors [4, Theorem
+1.2] settled one of the conjectures of Schlosser and Zhou [17, Conjecture 22]. Other results in this
+direction can be found in [8, Section 2] and [11].
+Returning to (1.1), for m∈ N≥3 and 𝓁∈ N we write
+F𝓁m(q) :=
+(
+q,qm−1;qm)𝓁∞
+(q2,qm−2;qm)𝓁∞ =:
+∑
+n≥0
+c[𝓁]m(n)qn (1.2)
+2020 Mathematics Subject Classiﬁcation. 11F03, 11F11, 11F20, 11F27, 11F30, 11F37.
+Key words and phrases. asymptotics, modular forms, sign patterns, theta quotients.
+1
+
+===== PAGE 2 =====
+
+and study the asymptotic growth and sign pattern of c[𝓁]m(n) as n→∞ .
+We ﬁrst consider the case m odd. For m = 3, we trivially have F𝓁m(q) = 1 and hence c[𝓁]m(n) = 0
+for all n∈ N. For m∈ N>3 odd, deﬁne
+φm := 12(1− 2m)( 1− 3m). (1.3)
+Our ﬁrst result is the following:
+Theorem 1.1. Letm∈ N>3 be odd and 𝓁∈ N. Then, as n→∞ ,
+c[𝓁]m(n)∼
+((
+1− 1m)( 1− 3m)𝓁
+2m
+) 1
+4 (−1)n cos(π(φm𝓁− nm))eπ
+√
+2(1− 1m)(1− 3m)𝓁
+m n
+n
+3
+4
+.
+In particular, for n≫ 1,
+sgn
+(
+c[𝓁]m(n)) = (−1)nsgn(cos(π(φm𝓁− nm))).
+Next, we explicitly determine the sign in Theorem 1.1. For a property P , deﬁne
+χP :=
+{
+1 if P holds,
+0 otherwise .
+Moreover let
+S[𝓁]m,1 :=
+{[m+1
+2 − 5𝓁2, 3m−12 − 5𝓁2] if 𝓁 is even,[
+m− 5𝓁−12 , 2m− 5𝓁+12 ] if 𝓁 is odd.
+Corollary 1.2. Let 𝓁∈ N, m∈ N>3 odd with m > 6𝓁, and deﬁne 0≤ r≤ 2m− 1 via n≡
+r (mod 2m). Then, for n≫ 1,
+sgn
+(
+c[𝓁]m(n)) = (−1)r+⌊𝓁2⌋+χr∈S[𝓁]m,1.
+Next, we consider the growth of c[𝓁]m(n) for m∈ N≥4 even and 𝓁∈ N.
+Theorem 1.3. We have, for m∈ N≥4 even and 𝓁∈ N, as n→∞ ,
+c[𝓁]m(n)∼ 𝓁
+1
+4
+2𝓁+ 54m 14 sin𝓁( 2πm)
+(−1)neπ
+√
+2𝓁
+mn
+n
+3
+4
+.
+In this case, we have the following sign-pattern of c[𝓁]m(n).
+Corollary 1.4. We have, for m∈ N≥4 even, 𝓁∈ N, and n∈ N0,
+sgn
+(
+c[𝓁]m(n)) = (−1)n.
+We next turn to 𝓁< 0. Writing 𝓁 =−λ with λ∈ N, for m∈ N>3 with gcd(m, 6) = 1, set
+Fλm(q) :=
+(
+q2,qm−2;qm)λ∞
+(q,qm−1;qm)λ∞ =:
+∑
+n≥0
+γ[λ]m (n)qn.
+If m≡± 1 (mod 6) and λ∈ N, deﬁne
+T [λ]m (n) := cos
+(
+π
+(λ
+6− n3±(2n−λ6m + λm2))).
+We show the following result:
+2
+
+===== PAGE 3 =====
+
+Theorem 1.5. Letm∈ N>3 with gcd(m, 6) = 1 and λ∈ N. Then, as n→∞ ,
+γ[λ]m (n)∼
+((
+1− 1m)( 1 + 1m)λ
+6m
+) 1
+4
+T [λ]m (n)eπ
+√
+2(1− 1m)(1+ 1m)λ
+3m n
+n
+3
+4
+.
+To state the sign pattern of γ[λ]m (n) for m≡± 1 (mod 6), we deﬁne
+S[λ],±m,2 :=
+
+
+
+[m+1
+2 + λ6, 3m−12 + λ6] if λ≡ 0 (mod 6),[
+(3∓1)m+4
+6 + λ−16 , (9∓1)m−26 + λ−16
+]
+if λ≡ 1 (mod 6),
+[
+(3∓2)m+5
+6 + λ−26 , (9∓2)m−16 + λ−26
+]
+if λ≡ 2 (mod 6),
+[λ+3
+6 , m+ λ−36 ] if λ≡ 3 (mod 6),[
+(3±2)m+7
+6 + λ−46 , (9±2)m+16 + λ−46
+]
+if λ≡ 4 (mod 6),
+[
+(3±1)m+8
+6 + λ−56 , (9±1)m+26 + λ−56
+]
+if λ≡ 5 (mod 6).
+Corollary 1.6. Let λ ∈ N, m ∈ N>3 with m ≡ ±1 (mod 6) and λ < m2 , and assume that
+n≡ 3r + 2mj (mod 6m) with 0≤r≤ 2m− 1 and 0≤j≤ 2. Then, for n≫ 1,
+sgn
+(
+γ[λ]m (n)) = (−1)r+⌊λ6⌋+χr∈S[λ],±m,2
+
+
+
+1 if λ≡ 0, 1, 2 (mod 6) ,
+−1 if λ≡ 4, 5 (mod 6) ,(m
+3
+)
+if λ≡ 3 (mod 6) ,
+where
+(·
+·
+)
+denotes the Jacobi-symbol.
+The paper is organized as follows. In Section 2, we state an exact formula of Zuckerman,
+preliminary results on the Jacobi theta function, and Ingham’s Tauberian theorem. Proofs of
+Theorem 1.1 and Corollary 1.2 are given in Section 3. We show Theorem 1.3 and Corollary 1.4 in
+Section 4. Section 5 is devoted to the proof of Theorem 1.5 and Corollary 1.6. Finally, we conclude
+this paper with Section 6 by proposing questions for future research.
+Acknowledgements
+The ﬁrst and the second author have received funding from the European Research Council
+(ERC) under the European Union’s Horizon 2020 research and innovation programme (grant agree-
+ment No. 101001179).
+2. Preliminaries
+2.1. Exact formulas of Rademacher and Zuckerman. We require an exact formula for Fourier
+coeﬃcients of weakly holomorphic modular functions. Rademacher [13] perfected the Circle Method
+of Hardy and Ramanujan [10] and obtained an exact formula for the partition function. This
+was later extended to weakly holomorphic forms of nonpositive weight in results of Rademacher–
+Zuckerman [14] and Zuckerman [18] and by Ono and the second author [6]. To state the result,
+let Iα denote the usual I-Bessel function. We allow weakly holomorphic modular forms with a
+multiplier system. Throughout, for a∈ N, b∈ Z, with gcd(a,b ) = 1, we denote by [b]a the inverse
+of b (moda).
+Theorem 2.1. Letκ≤ 0. Suppose that f is a weakly holomorphic modular form of weight κ on a
+subgroup Γ of ﬁnite index in SL2(Z). Assume that, for some δ≥ 0, f(τ) =∑n≫−∞a(n)qn+δ. For
+3
+
+===== PAGE 4 =====
+
+h,k∈ N0 with 0≤h<k and gcd(h,k ) = 1, deﬁne fh,k by
+f
+(1
+k (h +iz)
+)
+=
+(i
+z
+)κ
+fh,k
+(1
+k
+(
+[−h]k + iz)) (Re(z)> 0).
+Writefh,k(τ) =:∑r≫−∞ah,k(r)qr+δh,kck . Here ck∈ N andδh,k∈ [0, 1). Then, we have, for n+δ >0,
+a(n) = 2πiκ(n +δ)κ−12 ∑
+k≥1
+1
+k
+∑
+0≤h<k
+gcd(h,k)=1
+e− 2πi(n+δ)hk
+×
+∑
+r+δh,k<0
+ah,k(r)e
+2πi
+kck (r+δh,k)[−h]k
+(|r +δh,k|
+ck
+) 1−κ
+2
+I−κ+1
+
+4π
+k
+√
+|r +δh,k|(n +δ)
+ck
+
+.
+2.2. The Jacobi theta function. Recall the Jacobi theta function
+ϑ(w;τ) :=
+∑
+n∈Z+ 12
+q
+n2
+2 e2πin(w+ 12) (w∈ C, q :=e2πiτ).
+Let z∈ C with Re(z)> 0, k∈ N, h∈ Z with gcd(h,k ) = 1. Deﬁne ωh,k by1
+η
+(1
+k (h +iz)
+)
+=e
+πi
+12k (h−[−h]k)ω−1h,kz− 12η(1k([−h]k + iz)).
+Moreover, we require the following properties of ϑ(w;τ) from [4, Lemma 2.1 (1), (2), (3)], [19,
+Proposition 1.3 (7), (8)], and [9].
+Lemma 2.2. Suppose that w∈ C and τ∈ H.
+(1) Suppose that z∈ C with Re(z)> 0, k∈ N, and h∈ Z with gcd(h,k ) = 1. Then we have
+ϑ
+(
+w; 1k (h +iz)) =eπi4k (h−[−h]k)e− 3πi4 ω−3h,k√ize−πkw2z ϑ(iwz ; 1k([−h]k + iz)).
+(2) Suppose that λ,µ∈ Z. Then, with ζ :=e2πiw, we have
+ϑ(w +λτ +µ;τ) = (−1)λ+µq−λ22 ζ−λϑ(w;τ).
+(3) We have
+ϑ(w;τ) =−iq
+1
+8e−πiw∏
+n≥1
+(1−qn)(1−e2πiwqn−1)( 1−e−2πiwqn).
+(4) We have
+ϑ
+(w
+τ ;−1τ) =−i√−iτeπiw2τ ϑ (w;τ).
+(5) Forλ∈ Q, q
+λ2
+2 ϑ(λτ;τ) is a modular form of weight 12 (on some congruence subgroup).
+Moreover, using [4, Lemma 2.1 (3)], Lemma 2.2 (3), (4), we have the following lemma.
+Lemma 2.3. Suppose that τ∈ H and a,b∈ R.
+(1) If 0<a< 1, then we have, as τ→i∞,
+ϑ(aτ +b;τ) =−ie−πibq 18−a2(1 +O(qmin{a,1−a})).
+1For the explicit shape of ωh,k, see [1, (5.2.4)]. We however do not require it in this paper.
+4
+
+===== PAGE 5 =====
+
+(2) Forb /∈ Z, we have, as τ→i∞,
+ϑ (b;τ)∼− 2 sin (πb)e
+πiτ
+4 .
+(3) If 0<b< 1, then we have, as z→ 0,
+ϑ (aiz +b;iz)∼− e−2πiab+πiae(−b2− 14 +b)πz√z .
+(4) Fora /∈ Z, we have, as z→ 0,
+ϑ (aiz;iz)∼− 2i sin(πa)√z e− π4z.
+We also require the following asymptotics of the I-Bessel function.
+Lemma 2.4. We have, as x→∞ ,
+I1(x)∼ ex√2πx.
+2.3. A T auberian theorem. We require a modiﬁed version of Ingham’s Tauberian Theorem [12],
+stated in [5, Theorem 1.1]. For ∆ ≥ 0, deﬁne
+R∆ :={x +iy : x,y∈ R, x> 0,|y|≤ ∆x}.
+Proposition 2.5. Let B(q) = ∑n≥0b(n)qn be a power series whose radius of convergence is at
+least one and assume that the b(n) are non-negative and weakly increasing. Also suppose that ν, β,
+γ∈ R with γ >0 exist such that 2
+B
+(
+e−t)∼νtβeγt as t→ 0+, B (e−z)≪|z|βe γ|z| as z→ 0, (2.1)
+with the latter condition holding in each region 3 R∆ for ∆≥ 0. Then we have
+b(n)∼ νγ
+β
+2 + 14
+2√πnβ2 + 34e2√γn as n→∞.
+Moreover, we require the asymptotic behavior of ( q)∞ as q→ 1.
+Lemma 2.6. We have, with q =e−z,
+(q)∞∼
+√
+2π
+z e−π26z (as z→ 0).
+3. Proof of Theorem 1.1 and Corollary 1.2
+In this section, we consider the case that m is odd. For m∈ N>3 and 𝓁∈ N, we study the
+behavior of G𝓁m(τ), where
+Gm(τ) := ϑ (τ;mτ)ϑ (2τ;mτ) =q 12Fm(q),
+as τ→ hk∈ Q. For a∈ R, we write a =⌊a⌋ +{a}. We have the following lemma (for general m).
+Form∈ N>3, 𝓁,k∈ N, d := gcd(m,k ) with µ := md , and κ := kd, deﬁne
+Am,𝓁(h,k ) := π𝓁µκ
+({µh
+m
+}
+−
+{µh
+m
+}2
+−
+{2µh
+m
+}
++
+{2µh
+m
+}2)
+.
+2Throughout we use the principal branch to deﬁne the logarithm and, consequently, the square root.
+3Throughout, we consider z→ 0 in R∆ with ∆≥ 0.
+5
+
+===== PAGE 6 =====
+
+Lemma 3.1. Letm∈ N>3 and 𝓁,k∈ N. For 0≤h<k with gcd(h,k ) = 1, we have, as z→ 0,
+G𝓁m
+(h
+k + izk) =eAm,𝓁(h,k)z +Oh,k(1).
+Proof. It is enough to prove the claim for 𝓁 = 1. Indeed, the general case follows by taking the 𝓁-th
+power. Deﬁne
+gm(τ) :=Gm
+(τ
+m
+)
+= ϑ
+(τ
+m;τ
+)
+ϑ
+( 2τ
+m ;τ
+). (3.1)
+Then
+Log
+(
+gm
+(1
+k (h +iz)
+))
+≡
+∑
+j∈{0,1}
+(−1)jLog
+(
+ϑ
+(j + 1
+mk (h +iz) ; 1k (h +iz))), (3.2)
+where, here and throughout, we use ≡ to denote that the identity holds modulo 2 πiZ. Now by
+Lemma 2.2 (1) with w = j+1mk (h +iz) (j∈{ 0, 1}), we have, as z→ 0,
+Log
+(
+ϑ
+(j + 1
+mk (h +iz) ; 1k (h +iz)))
+≡− Log(z)2 − π (j + 1)2h2m2kz + Log(ϑ(i(j + 1)hmkz − j + 1mk ; 1k([−h]k + iz))) +Oh,k(1).
+Plugging this into (3.2), we obtain, as z→ 0,
+Log
+(
+gm
+(1
+k (h +iz)
+))
+≡ 3πh2
+m2kz +
+∑
+j∈{0,1}
+(−1)jLog
+(
+ϑ
+(i(j + 1)h
+mkz − j + 1mk ; 1k([−h]k + iz))) +Oh,k(1)
+= 3πh2
+m2kz +
+∑
+j∈{0,1}
+(−1)jLog
+(
+ϑ
+(
+(j + 1)
+(h
+mτ1 +α1
+)
+;τ1
+))
++Oh,k(1), (3.3)
+where
+α1 :=−h [−h]k + 1mk and τ1 := 1k([−h]k + iz).
+By Lemma 2.2 (2) with λ =⌊a⌋, µ= 0, w ={a}τ +b, we have
+ϑ (aτ +b;τ) = (−1)⌊a⌋e−2πi⌊a⌋bq−⌊a⌋22 −⌊a⌋{a}ϑ ({a}τ +b;τ).
+Applying this with a = hm, b =α1, and τ =τ1, we obtain,
+Log
+(
+ϑ
+((⌊h
+m
+⌋
++
+{h
+m
+})
+τ1 +α1;τ1
+))
+≡−πi
+⌊h
+m
+⌋2
+τ1−2πi
+⌊h
+m
+⌋{ h
+m
+}
+τ1 +Log
+(
+ϑ
+({h
+m
+}
+τ1+α1;τ1
+))
++Oh,k(1). (3.4)
+Now, by Lemma 2.3 (1), (2) with a ={hm}, b =α1, and τ =τ1, we have,
+Log
+(
+ϑ
+({h
+m
+}
+τ1 +α1;τ1
+))
+≡ πi4 τ1−πi{hm}τ1 +Oh,k(1) (as z→ 0).
+Plugging this into (3.4), we obtain, as z→ 0,
+Log
+(
+ϑ
+((⌊h
+m
+⌋
++
+{h
+m
+})
+τ1 +α1;τ1
+))
+6
+
+===== PAGE 7 =====
+
+≡ πi4 τ1 +π
+(
+h2
+m2 +
+{h
+m
+}
+−
+{h
+m
+}2) 1
+kz +Oh,k(1). (3.5)
+In the same way, we have, as z→ 0,
+Log
+(
+ϑ
+((⌊2h
+m
+⌋
++
+{2h
+m
+})
+τ1 + 2α1;τ1
+))
+≡ πi4 τ1 +π
+(
+4h2
+m2 +
+{2h
+m
+}
+−
+{2h
+m
+}2) 1
+kz +Oh,k(1).
+Plugging this and (3.5) into (3.3), we obtain, as z→ 0,
+Log
+(
+gm
+(1
+k (h +iz)
+))
+≡ πkz
+({h
+m
+}
+−
+{h
+m
+}2
+−
+{2h
+m
+}
++
+{2h
+m
+}2)
++Oh,k(1).
+Exponentiating and using (3.1) with τ↦→mτ, m =dµ, and k =dκ, we conclude the proof. □
+Next, we maximize|G𝓁m( 1k(h +iz))|.
+Lemma 3.2. For m∈ N>3 odd and 𝓁∈ N, |G𝓁m( 1k(h +iz))| is maximal, as z → 0, for hk ∈
+{m−12m , m+12m}.
+Proof. Again we may assume 𝓁 = 1. By Lemma 3.1, as z→ 0,|Gm( 1k(h +iz))| is maximal for the
+maximal value of 
+
+
+1
+µκ
+(
+3
+{
+µh
+m
+}2
+−
+{
+µh
+m
+})
+if 0 ≤
+{
+µh
+m
+}
+< 12,
+1
+µκ
+(
+3
+{
+µh
+m
+}2
+− 5
+{
+µh
+m
+}
++ 2
+)
+if 12≤{µhm}< 1. (3.6)
+Let d|m. If d = 1, then µ =m, κ =k, and{µhm} ={h} = 0. So, by Lemma 3.1, Gm( 1k(h +iz)) =
+Oh,k(1), as z→ 0. We next assume d >1. Plugging in µ = md and κ = kd, by (3.6), we need to
+maximize (note that d is odd since m is odd)
+
+
+d2
+mk
+(
+3
+{h
+d
+}2
+−
+{h
+d
+})
+if 0 ≤
+{h
+d
+}
+< 12,
+d2
+mk
+(
+3
+{h
+d
+}2
+− 5
+{h
+d
+}
++ 2
+)
+if 12≤{hd}< 1,
+=
+
+
+
+d2
+mk
+(
+3j2
+d2 − jd
+)
+if h∈dN0 +j, 0≤j≤
+⌊d−1
+2
+⌋
+,
+d2
+mk
+(
+3j2
+d2 − 5jd + 2) if h∈dN0 +j, ⌊d+12 ⌋≤j≤d− 1.
+Since m is odd and d| m, making the change of variables j↦→ d−j in the second case, we thus
+need to maximize 
+
+
+d2
+mk
+(
+3j2
+d2 − jd
+)
+if h∈dN0 +j, 0≤j≤ d−12 ,
+d2
+mk
+(
+3j2
+d2 − jd
+)
+if h∈dN−j, 1≤j≤ d−12 . (3.7)
+Observe that for d = 3 these expressions vanish. So for the remainder of the proof, we assume
+d >3. For m and d ﬁxed the expressions in (3.7) are maximized for j = d−12 . The corresponding
+contribution is (d−1)(d−3)4mk . Moreover, one sees that this is maximal fork minimal with gcd(m,k ) =d,
+which occurs for k = d. The expression we need to maximize in this case is (d−1)(d−3)4md . As d| m,
+this is maximized for d = m. The corresponding values of h are m−12 and m+12 which are clearly
+coprime to k =m. □
+7
+
+===== PAGE 8 =====
+
+Lemma 3.3. Form∈ N>3 odd,𝓁∈ N, and h∈{ m−12 , m+12 }, we have, as z→ 0,
+F𝓁m
+(
+e
+2πi
+m (h+iz)
+)
+∼C𝓁m,he
+(
+1
+4− 1m + 34m2
+)
+π𝓁
+z
+with
+Cm,h :=
+{
+−ie
+5πi
+2m− 3πim2 if h = m−12 ,
+ie− 5πi2m + 3πim2 if h = m+12 .
+Proof. Note that it is enough to prove the case 𝓁 = 1. By Lemma 2.2 (3), for m∈ N>3 odd, we
+have, as z→ 0,
+Fm
+(
+e
+2πi
+m (m−12 +iz))∼−ie πi2mϑ( 12− 12m + izm;iz)ϑ(1− 1m + 2izm ;iz).
+Moreover, by deﬁnition, c[1]m (n)∈ R. So, Fm(q) =Fm(q), and thus we only need to prove the claim
+for m−12 . Lemma 2.3 (3) ﬁnishes the proof. □
+Proof of Theorem 1.1. By Lemma 2.2 (5), q− 3𝓁2m +𝓁2F𝓁m(q) =q− 3𝓁2mG𝓁m(τ) is a modular function. By
+Lemma 3.2 its maximal growth occurs at the cusps m−12m and m+12m . Using Lemma 2.4, Lemma 3.3,
+and (1.3), Theorem 2.1 now gives, as n→∞ ,
+c[𝓁]m(n)∼
+((
+1− 1m)( 1− 3m)𝓁
+2m
+) 1
+4 (−1)n cos(π(φm𝓁− nm))eπ
+√
+2(1− 1m)(1− 3m)𝓁
+m n
+n
+3
+4
+.
+Here we require that the right-hand side does not vanish, which we now prove. Precisely, we need
+to show that, for n∈ N and 𝓁∈ N,
+cos
+(
+π
+(
+φm𝓁− nm))⁄= 0.
+For this, it suﬃces to prove that φm𝓁− nm /∈ Z + 12. Suppose for contradiction that, for some j∈ Z,
+φm𝓁− nm =j + 12⇒ (m− 2)(m− 3)𝓁− 2mn = 2m2j +m2,
+which cannot hold because the left-hand side is even whereas the right-hand side is odd, as m is
+odd. This concludes the proof. □
+Proof of Corollary 1.2. By Theorem 1.1, for n≫ 1 with n≡r (mod 2m),
+sgn
+(
+c[𝓁]m(n)) = (−1)rsgn(cos(π(φm𝓁− rm))). (3.8)
+Thus, it suﬃces to determine sgn(cos(π(φm𝓁− rm))). We only consider the case 𝓁 even, the case
+𝓁 odd is shown analogously. Using (1.3), we write
+π
+(
+φm𝓁− rm) =π(𝓁2 + 3𝓁m2− Rm), (3.9)
+where
+R :=Rr,𝓁 :=r + 5𝓁2. (3.10)
+Using (3.9), we obtain
+cos
+(
+π
+(
+φm𝓁− rm)) = (−1)𝓁2 cos(π(Rm− 3𝓁m2)). (3.11)
+8
+
+===== PAGE 9 =====
+
+Now note that by (3.10), we have
+5≤R< 5m2 .
+Next, we split the range of R. For 5≤R≤ m−12 , we have
+0<π
+(R
+m− 3𝓁m2
+)
+< π2.
+Thus
+sgn
+(
+cos
+(
+π
+(R
+m− 3𝓁m2
+)))
+= 1 for 5 ≤R≤ m− 12 . (3.12)
+Next, for m+12 ≤R≤ 3m−12 , we have
+π
+2 <π
+(R
+m− 3𝓁m2
+)
+< 3π2 .
+Thus, we obtain
+sgn
+(
+cos
+(
+π
+(R
+m− 3𝓁m2
+)))
+=−1 for m + 12 ≤R≤ 3m− 12 . (3.13)
+Finally, for the remaining range of R, i.e., 3m+12 ≤R< 5m2 , we have
+3π
+2 <π
+(R
+m− 3𝓁m2
+)
+< 5π2 .
+Thus, we obtain
+sgn
+(
+cos
+(
+π
+(R
+m− 3𝓁m2
+)))
+= 1 for 3m + 12 ≤R< 5m2 .
+Combining this, (3.12), (3.13), (3.11), (3.10), and (3.8), we obtain the claim. □
+4. Proof of Theorem 1.3 and Corollary 1.4
+In this section, we consider the case that m is even. We ﬁrst determine the asymptotics of
+F𝓁m(−e−z) as z→ 0. Note that, by the fact m even and (1.2), we have
+F𝓁m(−q) =
+(
+−q,−qm−1;qm)𝓁∞
+(q2,qm−2;qm)𝓁∞ =
+∑
+n≥0
+(−1)nc[𝓁]m(n)qn. (4.1)
+We set
+d[𝓁]m(n) := (−1)nc[𝓁]m(n). (4.2)
+Lemma 4.1. Forn∈ N0, d[𝓁]m(n)≥ 0 and{d[𝓁]m(n)}n≥0 is weakly increasing.
+Proof. From (4.1), it directly follows that d[𝓁]m(n)≥ 0 for n∈ N0.
+To prove that {d[𝓁]m(n)}n≥0 is weakly increasing, it suﬃces to show that (1 −q)F𝓁m(−q) has
+non-negative coeﬃcients. By (4.1), we have
+(1−q)F𝓁m(−q) =
+(
+−qm+1,−qm−1;qm)𝓁∞
+(1−q)𝓁−1 (qm+2,qm−2;qm)𝓁∞
+which has non-negative coeﬃcients. This concludes the proof. □
+Next, we determine the asymptotics of F𝓁m(−e−z), as z→ 0.
+9
+
+===== PAGE 10 =====
+
+Lemma 4.2. We have, as z→ 0,
+F𝓁m(−e−z)∼ e
+π2𝓁
+2mz
+2𝓁 sin𝓁( 2πm).
+Proof. Note that it is enough to prove the case 𝓁 = 1. By (4.1) and Lemma 2.2 (3), we have
+Fm(−q) =− ie−πiτ (qm;qm)2∞ϑ (2τ; 2mτ)(q2m;q2m)∞ϑ (τ;mτ)ϑ (2τ;mτ).
+Using this with τ = iz2π, Lemma 2.6 and Lemma 2.3 (4) imply the claim. □
+Proof of Theorem 1.3. By Lemma 4.1,d[𝓁]m(n) satisﬁes the monotonicity and non-negativity required
+to apply Proposition 2.5. Moreover, Lemma 4.2 shows that F𝓁m(−e−z) satisﬁes (2.1) with ν =
+1
+2𝓁 sin𝓁( 2πm ),β = 0, and γ = π2𝓁2m . By Proposition 2.5, we have, as n→∞ ,
+d[𝓁]m(n)∼ 𝓁
+1
+4
+2𝓁+ 54m 14 sin𝓁( 2πm)
+eπ
+√
+2𝓁
+mn
+n
+3
+4
+.
+By (4.2), we conclude the proof. □
+Proof of Corollary 1.4. The claim follows from Lemma 4.1 and (4.2). □
+5. Proof of Theorem 1.5 and Corollary 1.6
+Form∈ N>3 and λ∈ N, we study the main growth of Gλm(τ), where
+Gm(τ) := ϑ (2τ;mτ)ϑ (τ;mτ) =q− 12Fm(q),
+as τ→ hk∈ Q. Noting that Gm =G−1m , Lemma 3.1 implies the following:
+Lemma 5.1. Let m∈ N>3 and λ,k ∈ N. For 0≤ h < kwith gcd(h,k ) = 1, d := gcd(m,k ) with
+µ := md and κ := kd, we have,
+Gλm
+(h
+k + izk) =e−Am,λ(h,k)z +Oh,k(1) (as z→ 0).
+Next, we maximize|Gλm( 1k(h +iz))|.
+Lemma 5.2. For m∈ N>3 with m≡± 1 (mod 6) and λ∈ N,|Gλm( 1k(h +iz))| is maximal, as
+z→ 0, for hk∈{ m∓16m , 5m±16m }.
+Proof. By taking the negative of (3.6) we see that, as z→ 0,|Gλm( 1k(h +iz))| is maximal for the
+maximal value of 
+
+
+1
+µκ
+(
+−3
+{
+µh
+m
+}2
++
+{
+µh
+m
+})
+if 0 ≤
+{
+µh
+m
+}
+< 12,
+1
+µκ
+(
+−3
+{
+µh
+m
+}2
++ 5
+{
+µh
+m
+}
+− 2
+)
+if 12≤{µhm}< 1. (5.1)
+Let d|m. If d = 1, then µ =m, κ =k, and{µhm} ={h} = 0. So, by Lemma 5.1, Gλm( 1k(h +iz)) =
+Oh,k(1) as z→ 0. Next, we assume d >1. Plugging in µ = md and κ = kd, by (5.1), making the
+change of variables j↦→d−j in the second case, thus we need to maximize
+
+
+
+d2
+mk
+(
+− 3j2d2 + jd) if h∈dN0 +j, 0≤j≤ d−12 ,
+d2
+mk
+(
+− 3j2d2 + jd) if h∈dN−j, 1≤j≤ d−12 . (5.2)
+10
+
+===== PAGE 11 =====
+
+We note that form andd ﬁxed these expressions are maximized if|6j−d| is minimal. Now|6j−d|
+is minimal for j = d∓16 . In this case, (5.2) is maximal for k = d. The expression we need to
+maximize in this case is
+d− 1d
+12m . This is maximized for d = m. The maximum value is 112(1− 1m2 ),
+which is positive for m∈ N>3. Since j = m∓16 , we have m = 6j± 1 and hence
+gcd (m,j ) = gcd (6j± 1,j ) = 1.
+Thus, for h∈ mN0 +j (for the plus sign) and k = m (resp. h∈ mN−j and k = m for the
+minus sign), we have gcd(h,k ) = 1. Taking the representative 0 ≤h < mgives h =j = m∓16 and
+h =m−j = 5m±16 . □
+Next, we determine the growth of Fλm(e 2πim (h+iz)) as z→ 0.
+Lemma 5.3. Form∈ N>3 with m≡± 1 (mod 6) , λ∈ N, and h∈{ m∓16 , 5m±16 }, we have,
+Fλm
+(
+e
+2πi
+m (h+iz)
+)
+∼C λm,he
+(
+1
+12− 112m2
+)
+πλ
+z (as z→ 0),
+where
+Cm,h :=
+{
+e
+πi
+6∓ πi6m± πim2 if h = m∓16 ,
+e−πi6± πi6m∓ πim2 if h = 5m±16 .
+Proof. Again it is enough to consider the case λ = 1. Moreover, by deﬁnition, γ[1]m (n)∈ R. So,
+Fm(q) =Fm(q) and thus we only need to prove the claim for h = m∓16 . Using Lemma 2.2 (3), for
+h = m∓16 , we have, as z→ 0,
+Fm
+(
+e
+2πi
+m (m∓16 +iz))∼eπi6e∓ πi6mϑ( 13∓ 13m + 2izm ;iz)ϑ( 16∓ 16m + izm;iz).
+Now, Lemma 2.3 (3) ﬁnishes the proof. □
+Proof of Theorem 1.5. By Lemma 2.2 (5), q
+3λ
+2m−λ2Fλm(q) is a modular function. By Lemma 5.2 its
+maximal growth occurs at the cuspsm∓16m and 5m±16m . Using Lemma 5.3 and Lemma 2.4, Theorem 2.1
+now gives, as n→∞ ,
+γ[λ]m (n)∼
+((
+1− 1m)( 1 + 1m)λ
+6m
+) 1
+4
+T [λ]m (n)eπ
+√
+2(1− 1m)(1+ 1m)λ
+3m n
+n
+3
+4
+.
+Here we require that the right-hand side does not vanish, which we now prove. Precisely, for
+n,λ∈ N and m∈ N>3 with gcd(m, 6) = 1, we need to show
+T [λ]m (n)⁄= 0.
+The proof is analogous to the argument given in Theorem 1.1. □
+Proof of Corollary 1.6. By Theorem 1.5, for n≫ 1,
+sgn
+(
+γ[λ]m (n)) = sgn(T [λ]m (n)).
+Since n≡ 3r + 2mj (mod 6m), we obtain, using that m≡± 1 (mod 6),
+T [λ]m (n) = (−1)r cos
+(
+π
+(λ
+6± 1m(r− λ6 + λm))). (5.3)
+We writeλ = 6s +a with 0≤a≤ 5. Since m≡± 1 (mod 6), we have
+R =Ra :=a±m− 16 +r−s∈ Z.
+11
+
+===== PAGE 12 =====
+
+Noting that
+λ
+6± 1m(r− λ6 + λm) =s± 1m(R + λm),
+and using (5.3), we have,
+T [λ]m (n) = (−1)r+s cos
+(
+π
+(R
+m + λm2
+))
+. (5.4)
+Since 0 <λ< m2 by assumption, we have
+0< λm2 < 12m.
+Thus, it is not hard to see that
+sgn
+(
+cos
+(
+π
+(R
+m + λm2
+)))
+= (−1)
+χR (mod 2m)∈[m+12 , 3m−12 ]. (5.5)
+We now apply (5.4) and (5.5), distinguishing residue classes of λ modulo 6.
+Case 1: λ≡ 0 (mod 6) . Here a = 0 and s = λ6 . Thus R =r−s. We have
+R (mod 2m)∈
+[m + 1
+2 , 3m− 12 ]⇔r (mod 2m)∈[m + 12 + λ6, 3m− 12 + λ6].
+It is not hard to show that this interval lies in [0, 2m−1]. Thus we can skip the conditionr (mod 2m).
+By (5.4), we conclude the claim in this case.
+Case 2: λ≡ 1 (mod 6) . As the proof of this case is analogous to the case λ≡ 0 (mod 6), we skip
+it here.
+Case 3: λ≡ 2 (mod 6) . Again the proof follows that of the case λ≡ 0 (mod 6) and we therefore
+skip it here.
+Case 4: λ≡ 3 (mod 6) . Here a = 3 and s = λ−36 . Then R = ±m−12 +r−s. We have
+R (mod 2m)∈
+[m + 1
+2 , 3m− 12 ]⇔r (mod 2m)∈[m + 12 −±m− 12 +s, 3m− 12 −±m− 12 +s].
+We ﬁrst assume that m≡ 1 (mod 6). Then our condition becomes
+r (mod 2m)∈
+[λ− 3
+6 + 1,m + λ− 36 ].
+It is not hard to see that this again lies in [0 , 2m− 1]. The claim follows in this case as ( m3 ) = 1.
+Next, assume that m≡− 1 (mod 6). Then our condition becomes
+r (mod 2m)∈ [m +s + 1, 2m +s] = [m +s + 1, 2m− 1]∪ [2m, 2m +s]
+≡ [m +s + 1, 2m− 1]∪ [0,s ] (mod 2m),
+which is the complement of [s + 1,m +s] in [0, 2m− 1]. Thus
+(−1)χr∈[m+s+1,2m−1]∪[0,s] = (−1)1+χr∈[s+1,m+s].
+Noting that (m3 ) =−1, the claim follows in this case.
+Case 5: λ≡ 4 (mod 6) . Here a = 4 and s = λ−46 . Then R = 2(±m−1)3 +r−s. Thus we have
+R (mod 2m)∈
+[m + 1
+2 , 3m− 12 ]
+12
+
+===== PAGE 13 =====
+
+⇔r (mod 2m)∈
+[m + 1
+2 − 2 (±m− 1)3 +s, 3m− 12 − 2 (±m− 1)3 +s].
+If m≡ 1 (mod 6), the above condition becomes
+r (mod 2m)∈
+[
+−m6 + λ− 46 + 76, 5m6 + λ− 46 + 16].
+Noting that the left endpoint is negative, we split the interval as[
+−m6 + λ− 46 + 76,−1]∪[0, 5m + 16 + λ− 46 ]
+≡
+[
+0, 5m + 16 + λ− 46 ]∪[11m + 76 + λ− 46 , 2m− 1] (mod 2m).
+This is the complement of [ 5m+76 + λ−46 , 11m+16 + λ−46 ] in [0, 2m− 1]. The claim follows in this case.
+We next consider the case m≡− 1 (mod 6). Then our condition becomes
+r (mod 2m)∈
+[7m + 7
+6 + λ− 46 , 13m + 16 + λ− 46 ]. (5.6)
+Note that 7m+76 + λ−46 < 2m and 13m+16 + λ−46 > 2m. Thus we write the interval in (5.6) as[7m + 7
+6 + λ− 46 , 2m− 1]∪[2m, 13m + 16 + λ− 46 ]
+≡
+[
+0,m + 16 + λ− 46 ]∪[7m + 76 + λ− 46 , 2m− 1] (mod 2m).
+This is the complement of [ m+76 + λ−46 , 7m+16 + λ−46 ] in [0, 2m− 1], yielding the claim in this case.
+Case 6: λ≡ 5 (mod 6) . Here a = 5 and s = λ−56 . Then R = 5(±m−1)6 +r−s. We have
+R (mod 2m)∈
+[m + 1
+2 , 3m− 12 ]
+⇔r (mod 2m)∈
+[m + 1
+2 − 5 (±m− 1)6 +s, 3m− 12 − 5 (±m− 1)6 +s].
+We ﬁrst assume that m≡ 1 (mod 6). Then our condition becomes
+r (mod 2m)∈
+[4−m
+3 + λ− 56 , 2m + 13 + λ− 56 ].
+Noting that 4−m3 + λ−56 < 0, we rewrite the above interval as[4−m
+3 + λ− 56 ,−1]∪[0, 2m + 13 + λ− 56 ]
+≡
+[
+0, 2m + 13 + λ− 56 ]∪[5m + 43 + λ− 56 , 2m− 1] (mod 2m).
+This is the complement of [ 2m+43 + λ−56 , 5m+13 + λ−56 ] in [0, 2m− 1] and this claim follows in this
+case.
+We next assume m≡− 1 (mod 6). In this case, our condition becomes
+r (mod 2m)∈
+[4m + 4
+3 + λ− 56 , 7m + 13 + λ− 56 ].
+13
+
+===== PAGE 14 =====
+
+Noting that 4m+43 + λ−56 < 2m and 7m+13 + λ−56 > 2m, we rewrite the above interval as[4m + 4
+3 + λ− 56 , 2m− 1]∪[2m, 7m + 13 + λ− 56 ]
+≡
+[
+0,m + 13 + λ− 56 ]∪[4m + 43 + λ− 56 , 2m− 1] (mod 2m).
+This is the complement of [ m+43 + λ−56 , 4m+13 + λ−56 ] in [0, 2m− 1] and the claim follows in this
+case. □
+6. Open questions
+The results of this paper suggest several directions for future research.
+(1) It would be interesting to extend Theorems 1.1, 1.3, and 1.5, by considering theta quotients of
+the form (for a,b,m,𝓁 ∈ N with a⁄=b)
+ϑ (aτ;mτ)𝓁
+ϑ (bτ;mτ)𝓁.
+For which choices of a,b,m , and 𝓁 do the Fourier coeﬃcients have an eventual periodic sign
+pattern? Can this sign pattern be determined explicitly? More generally, can one characterize
+the dominant cusps in terms of a,b, and m?
+(2) In Theorem 1.5, we assume gcd( m, 6) = 1. Can this assumption be removed? More precisely,
+how do the dominant cusps and the resulting sign pattern change if 2 |m or 3|m?
+(3) Our results raise a more general question: under what conditions do the Fourier coeﬃcients of
+a modular theta quotient have an eventually periodic sign pattern?
+Appendix A. Numerics
+In the following tables, we list the sign patterns of c[𝓁]m(n) and γ[𝓁]m (n) for m∈{ 5, 7}, 1≤𝓁≤ 6,
+and 70≤n≤m + 69.
+(m,𝓁 ) (5, 1) (5, 2) (5, 3) (5, 4) (5, 5)
+sgn
+(
+c[𝓁]m(n)) +− +−− +− +−− +− +− + +− +− + −− +− +
+sgn
+(
+γ[𝓁]m (n)) + +−−− + + +−− + + +−− − + +−− − + + +−
+(m,𝓁 ) (5, 6) (7, 1) (7, 2) (7, 3)
+sgn
+(
+c[𝓁]m(n)) − + +− + +− +− + +− +− +− +− + −− +− +− +
+sgn
+(
+γ[𝓁]m (n)) −− + +− + + +−−− + + + +−−−− + + + +−−−
+(m,𝓁 ) (7, 4) (7, 5) (7, 6)
+sgn
+(
+c[𝓁]m(n)) − +−− +− + − +− + +− + − +− +− + +
+sgn
+(
+γ[𝓁]m (n)) − + + + +−− −− + + +−− −− + + + +−
+Table 1. Sign patterns for c[𝓁]m(n) and γ[𝓁]m (n).
+14
+
+===== PAGE 15 =====
+
+References
+[1] G. Andrews, The theory of partitions , Cambridge University Press, 1980.
+[2] G. Andrews, Ramanujan’s “Lost” Notebook III. The Rogers–Ramanujan continued fraction , Adv. Math. 41
+(1981), 186–208.
+[3] N. Baruah and A. Sarma, Sign patterns and congruences of certain inﬁnite products involving the Rogers–
+Ramanujan continued fraction, Ramanujan J. 67 (2025), 1–25.
+[4] K. Bringmann, B. Heim, and B. Kane, On a sign-change conjecture of Schlosser and Zhou , J. Math. Anal.
+Appl. 548 (2025), p. 129339.
+[5] K. Bringmann, C. Jennings-Shaﬀer, and K. Mahlburg, On a Tauberian theorem of Ingham and Euler–Maclaurin
+summation, Ramanujan J. 61 (2021), 55–86.
+[6] K. Bringmann and K. Ono, Coeﬃcients of harmonic Maass forms, Proceedings of the 2008 University of Florida
+Conference on partitions, q-series, and modular forms, 2008.
+[7] S. Chan and H. Yesilyurt, The periodicity of the signs of the coeﬃcients of certain inﬁnite product , Paciﬁc J.
+Math. 225 (2006), 13–32.
+[8] S. Chern, Asymptotics for the Taylor coeﬃcients of certain inﬁnite products, Ramanujan J. 55 (2021), 987–1014.
+[9] M. Eichler and D. Zagier, The theory of Jacobi forms , Progress in Math. 55, Birkh¨ auser, 1985.
+[10] G. Hardy and S. Ramanujan, Asymptotic formulae in combinatory analysis , Proc. London Math. Soc. (2) 17
+(1918), 75–115.
+[11] B. He and L. Li, Some conjectures of Schlosser and Zhou on sign patterns of the coeﬃcients of inﬁnite products ,
+arXiv:2509.10023.
+[12] A. Ingham, A Tauberian theorem for partitions , Ann. Math. 42 (1941), 1075–1090.
+[13] H. Rademacher, On the partition function p(n), Proc. Lond. Math. Soc. (3) 43 (1937), 241–254.
+[14] H. Rademacher and H. Zuckerman, On the Fourier coeﬃcients of certain modular forms of positive dimension
+Ann. Math. 39 (1938), 433–462.
+[15] K. Ramanathan, Generalisations of some theorems of Ramanujan , J. Number Theory 29 (1988), 118–137.
+[16] B. Richmond and G. Szekeres, The Taylor coeﬃcients of certain inﬁnite products , Acta Sci. Math. (Szeged) 40
+(1978), 347–369.
+[17] M. Schlosser and N. Zhou, On the inﬁnite Borwein product raised to a positive real power , Ramanujan J. 61
+(2023), 515–543.
+[18] H. Zuckerman, On the coeﬃcients of certain modular forms belonging to subgroups of the modular group , Trans.
+Amer. Math. Soc. 45 (1939), 298–321.
+[19] S. Zwegers, Mock theta functions, Ph.D. Thesis, Universiteit Utrecht (2002).
+University of Cologne, Department of Mathematics and Computer Science, Weyertal 86-90, 50931
+Cologne, Germany
+Email address: kbanerj1@uni-koeln.de
+Email address: kbringma@math.uni-koeln.de
+Email address: bheim@uni-koeln.de
+The University of Hong Kong, Department of Mathematics, Pokfulam, Hong Kong
+Email address: bkane@hku.hk
+15

@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite it and the original paper."
+title: "ThetaSignPatterns: a Lean 4 formalization of 'On sign patterns of Fourier coefficients of theta quotients'"
+type: software
+abstract: "A Lean 4 formalization produced by AxiomProver using AxiomCode and verified with Axile."
+license: Apache-2.0
+keywords:
+  - Lean 4
+  - Mathlib
+  - formalization
+  - theta functions
+  - sign patterns
+  - circle method
+authors:
+  - name: "AxiomProver"
+references:
+  - type: article
+    title: "On sign patterns of Fourier coefficients of theta quotients"
+    authors:
+      - family-names: Banerjee
+        given-names: Koustav
+      - family-names: Bringmann
+        given-names: Kathrin
+      - family-names: Heim
+        given-names: Bernhard
+      - family-names: Kane
+        given-names: Ben
+    notes: "Manuscript, 15 pages (file paper/Signchangemerge51.pdf)."
+preferred-citation:
+  type: article
+  title: "On sign patterns of Fourier coefficients of theta quotients"
+  authors:
+    - family-names: Banerjee
+      given-names: Koustav
+    - family-names: Bringmann
+      given-names: Kathrin
+    - family-names: Heim
+      given-names: Bernhard
+    - family-names: Kane
+      given-names: Ben
+  notes: "Manuscript, 15 pages."

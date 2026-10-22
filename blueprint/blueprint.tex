@@ -1,0 +1,1215 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[equation]{Proposition}
+\newtheorem{lemma}[equation]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[equation]{Definition}
+
+\definecolor{usesblue}{HTML}{1D4ED8}
+\newenvironment{uses-statement}
+  {\par\smallskip\noindent{\color{usesblue}\textbf{Uses (statement):}}\space\ignorespaces}
+  {\par\smallskip}
+\newenvironment{uses-proof}
+  {\par\smallskip\noindent{\color{usesblue}\textbf{Uses (proof):}}\space\ignorespaces}
+  {\par\smallskip}
+
+% leanblueprint markup (inserted by mark.py); rendered as a small note
+\newcommand{\lean}[1]{\par\noindent{\footnotesize\color{gray}Lean: \texttt{\detokenize{#1}}}\par}
+\newcommand{\leanok}{{\footnotesize\color{teal}\ (verified in Lean)}}
+\newcommand{\fr}[1]{\{#1\}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\Rea}{\operatorname{Re}}
+\newcommand{\Ima}{\operatorname{Im}}
+
+\title{Blueprint: \emph{On sign patterns of Fourier coefficients of theta quotients}\\
+\large (K.~Banerjee, K.~Bringmann, B.~Heim, B.~Kane)}
+\author{AxiomProver formalization (produced using AxiomCode; verified with Axile)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Scope and external inputs}
+
+The targets are the six main results of the paper: Theorems~1.1, 1.3, 1.5 and
+Corollaries~1.2, 1.4, 1.6 (here \ref{thm_11_asymp}, \ref{thm_11_sign}, \ref{thm_12},
+\ref{thm_13}, \ref{thm_14}, \ref{thm_15_asymp}, \ref{thm_15_sign}, \ref{thm_16}).
+Every result proved in Sections~3--5 of the paper is proved here. The only assumed
+mathematics are the external results E1--E6 of Section~\ref{sec_ext}, each cited. They
+are collected as hypotheses (one structure \(\mathcal H\)) of every main theorem; no axiom
+is introduced. \texttt{ASSUMPTIONS.md} compares each external statement with its source.
+
+Conventions. Throughout, \(q=e^{2\pi i\tau}\) with \(\Ima\tau>0\). For real \(x\),
+\(\fr{x}=x-\lfloor x\rfloor\). A statement ``\(u\sim v\)'' along a filter means \(u-v=o(v)\).
+``For \(n\gg1\)'' means ``for all sufficiently large \(n\in\mathbb N\)''. \(\sgn\) is the real
+sign function with values in \(\{-1,0,1\}\). Square roots and powers of complex numbers use
+the principal branch.
+
+% ======================================================================
+\section{Definitions}
+
+\begin{definition}[Jacobi theta function]\label{def_theta}
+\lean{ThetaSignPatterns.theta}
+\leanok
+For \(w,\tau\in\mathbb C\),
+\(\vartheta(w;\tau):=\sum_{k\in\mathbb Z} e^{\pi i (k+\frac12)^2\tau}\,e^{2\pi i (k+\frac12)(w+\frac12)}\).
+\end{definition}
+
+\begin{definition}[q-Pochhammer symbol]\label{def_qpoch}
+\lean{ThetaSignPatterns.qPochInf}
+\leanok
+For \(a,q\in\mathbb C\), \((a;q)_\infty:=\prod_{n\ge0}(1-aq^n)\) (unconditional infinite product).
+\end{definition}
+
+\begin{definition}[Analytic theta quotients]\label{def_Fan}
+\lean{ThetaSignPatterns.factorFan,ThetaSignPatterns.Fan,ThetaSignPatterns.Ftan}
+\leanok
+For \(m\in\mathbb N\), \(j\in\mathbb N_0\), \(q\in\mathbb C\), let
+\(u_{m,j}(q):=\frac{(1-q^{mj+1})(1-q^{mj+m-1})}{(1-q^{mj+2})(1-q^{mj+m-2})}\), and let
+\(F_m(q):=\prod_{j\ge0}u_{m,j}(q)\) and \(\widetilde F_m(q):=\prod_{j\ge0}u_{m,j}(q)^{-1}\).
+\end{definition}
+
+\begin{definition}[Fourier coefficients]\label{def_coeff}
+\lean{ThetaSignPatterns.geomPS,ThetaSignPatterns.oneSubPS,ThetaSignPatterns.factorF,ThetaSignPatterns.factorFt,ThetaSignPatterns.coeffC,ThetaSignPatterns.coeffGamma}
+\leanok
+In \(\mathbb Z[[X]]\) let \(g_e:=\sum_{e\mid n}X^n\) (so \((1-X^e)g_e=1\) for \(e\ge1\)),
+\(U_{m,j}:=(1-X^{mj+1})(1-X^{mj+m-1})g_{mj+2}g_{mj+m-2}\) and
+\(\widetilde U_{m,j}:=(1-X^{mj+2})(1-X^{mj+m-2})g_{mj+1}g_{mj+m-1}\). For \(\ell,n\in\mathbb N_0\),
+\(c^{[\ell]}_m(n)\) is the coefficient of \(X^n\) in \(\bigl(\prod_{j=0}^{n}U_{m,j}\bigr)^{\ell}\) and
+\(\gamma^{[\ell]}_m(n)\) the coefficient of \(X^n\) in \(\bigl(\prod_{j=0}^{n}\widetilde U_{m,j}\bigr)^{\ell}\).
+\end{definition}
+
+\begin{definition}[The cusp quotient]\label{def_Gm}
+\lean{ThetaSignPatterns.Gm}
+\leanok
+\(G_m(\tau):=\vartheta(\tau;m\tau)/\vartheta(2\tau;m\tau)\).
+\end{definition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{definition}[Weight one-half thetas]\label{def_thetaRat}
+\lean{ThetaSignPatterns.thetaRat}
+\leanok
+For \(\lambda\in\mathbb Q\), \(\Theta_\lambda(\tau):=e^{\pi i\lambda^2\tau}\vartheta(\lambda\tau;\tau)\)
+\(\,(=q^{\lambda^2/2}\vartheta(\lambda\tau;\tau))\).
+\end{definition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{definition}[The modular functions of Theorems 1.1 and 1.5]\label{def_fMod}
+\lean{ThetaSignPatterns.fMod,ThetaSignPatterns.fModT,ThetaSignPatterns.deltaMod}
+\leanok
+For \(m,\ell\in\mathbb N\),
+\(f_{m,\ell}(\tau):=\Bigl(\frac{e^{\pi i\tau/m}\vartheta(\tau;m\tau)}{e^{4\pi i\tau/m}\vartheta(2\tau;m\tau)}\Bigr)^{\ell}\)
+and \(\widetilde f_{m,\ell}(\tau)=\Bigl(\frac{e^{4\pi i\tau/m}\vartheta(2\tau;m\tau)}{e^{\pi i\tau/m}\vartheta(\tau;m\tau)}\Bigr)^{\ell}\);
+the shift is \(\delta_{m,\ell}=\ell\frac{m-3}{2m}\).
+\end{definition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{definition}[Weakly holomorphic modular forms]\label{def_WH}
+\lean{ThetaSignPatterns.IsWHModular,ThetaSignPatterns.HasCuspLowerBound,ThetaSignPatterns.mob,ThetaSignPatterns.jfac}
+\leanok
+For \(\gamma=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\mathrm{SL}_2(\mathbb Z)\)
+write \(\gamma\tau=\frac{a\tau+b}{c\tau+d}\) and \(j(\gamma,\tau)=c\tau+d\). For \(k\in\mathbb R\),
+a function \(f\) is \emph{weakly holomorphic modular of weight \(k\)} if it is holomorphic on
+\(\mathbb H\); there are a finite-index subgroup \(\Gamma\le\mathrm{SL}_2(\mathbb Z)\) and
+\(\chi:\mathrm{SL}_2(\mathbb Z)\to\mathbb C\) with \(|\chi(\gamma)|=1\) and
+\(f(\gamma\tau)=\chi(\gamma)j(\gamma,\tau)^k f(\tau)\) for \(\gamma\in\Gamma\),
+\(\tau\in\mathbb H\); and for every \(\gamma\in\mathrm{SL}_2(\mathbb Z)\) there are
+\(A,C,T\) with \(|j(\gamma,\tau)^{-k}f(\gamma\tau)|\le Ce^{A\Ima\tau}\) for \(\Ima\tau\ge T\).
+It is \emph{bounded below at the cusps} if for every \(\gamma\) there are \(A,T\) and
+\(c>0\) with \(|j(\gamma,\tau)^{-k}f(\gamma\tau)|\ge ce^{-A\Ima\tau}\) for \(\Ima\tau\ge T\).
+\end{definition}
+
+\begin{definition}[Reduced cusps]\label{def_cusp}
+\lean{ThetaSignPatterns.IsReducedCusp}
+\leanok
+A reduced cusp is a pair \((h,k)\in\mathbb Z\times\mathbb N\) with \(0\le h<k\) and
+\(\gcd(h,k)=1\); it stands for \(h/k\).
+\end{definition}
+
+\begin{definition}[Cones]\label{def_cone}
+\lean{ThetaSignPatterns.cone}
+\leanok
+For \(\Delta\ge0\), \(R_\Delta:=\{x+iy:\ x>0,\ |y|\le\Delta x\}\); ``\(z\to0\) in \(R_\Delta\)''
+is the filter of punctured neighbourhoods of \(0\) within \(R_\Delta\).
+\end{definition}
+
+\begin{definition}[Modified Bessel function]\label{def_bessel}
+\lean{ThetaSignPatterns.besselI1}
+\leanok
+\(I_1(x):=\sum_{j\ge0}\frac{(x/2)^{2j+1}}{j!\,(j+1)!}\) for \(x\in\mathbb R\).
+\end{definition}
+
+\begin{definition}[Dominant term of the exact formula]\label{def_rzTerm}
+\lean{ThetaSignPatterns.rzTerm}
+\leanok
+For \(\Lambda,\delta\in\mathbb R\), a cusp \(p=(h,k)\), \(C\in\mathbb C\) and \(n\in\mathbb N_0\),
+\(\mathcal T_{\Lambda,\delta}(p,C;n):=\sqrt{\tfrac{2\pi\Lambda}{n+\delta}}\;C\;
+e^{-2\pi i(n+\delta)h/k}\;I_1\bigl(\sqrt{8\pi\Lambda(n+\delta)}\bigr)\).
+\end{definition}
+\begin{uses-statement}
+\ref{def_bessel}
+\end{uses-statement}
+
+\begin{definition}[Cusp exponent]\label{def_Acusp}
+\lean{ThetaSignPatterns.gfr,ThetaSignPatterns.Acusp}
+\leanok
+For \(x\in\mathbb R\) let \(\mathfrak g(x):=\fr{x}-\fr{x}^2\). For \(m,k\in\mathbb N\),
+\(h\in\mathbb Z\), with \(d:=\gcd(m,k)\), \(\mu:=m/d\), \(\kappa:=k/d\),
+\(A_m(h,k):=\frac{\pi}{\mu\kappa}\bigl(\mathfrak g(h/d)-\mathfrak g(2h/d)\bigr)\).
+(Since \(\fr{\mu h/m}=\fr{h/d}\), this is the paper's \(A_{m,1}(h,k)\).)
+\end{definition}
+
+\begin{definition}[Growth constants, odd \(m\)]\label{def_LamOdd}
+\lean{ThetaSignPatterns.LamOdd,ThetaSignPatterns.LamOdd',ThetaSignPatterns.domOdd}
+\leanok
+For \(m\in\mathbb N\): \(\Lambda_m:=\frac{\pi(m-1)(m-3)}{4m^3}\);
+\(\Lambda'_m:=\frac{\pi}{4m}\max\bigl(\frac14,\frac{(m-3)(m-9)}{m^2}\bigr)\); and
+\(D_m:=\{(\tfrac{m-1}2,m),(\tfrac{m+1}2,m)\}\) (for odd \(m\)).
+\end{definition}
+
+\begin{definition}[Growth constants, \(\gcd(m,6)=1\)]\label{def_LamT}
+\lean{ThetaSignPatterns.epsZ,ThetaSignPatterns.epsM,ThetaSignPatterns.LamT,ThetaSignPatterns.LamT',ThetaSignPatterns.domT}
+\leanok
+For \(m\in\mathbb N\) with \(\varepsilon_m:=1\) if \(m\equiv1\pmod 6\) and \(\varepsilon_m:=-1\)
+otherwise: \(\widetilde\Lambda_m:=\frac{\pi(m^2-1)}{12m^3}\);
+\(\widetilde\Lambda'_m:=\frac{\pi}{12m}\max\bigl(\frac14,\frac{m^2-25}{m^2}\bigr)\); and
+\(\widetilde D_m:=\{(\tfrac{m-\varepsilon_m}6,m),(\tfrac{5m+\varepsilon_m}6,m)\}\).
+\end{definition}
+
+\begin{definition}[Constants of Theorem 1.1 and Corollary 1.2]\label{def_phi}
+\lean{ThetaSignPatterns.phiM,ThetaSignPatterns.Codd,ThetaSignPatterns.S1,ThetaSignPatterns.chi}
+\leanok
+\(\varphi_m:=\frac12(1-\frac2m)(1-\frac3m)\);
+\(C_m:=-i\,e^{\pi i(\frac{5}{2m}-\frac3{m^2})}\); and for \(r\in\mathbb Z\),
+\(r\in S^{[\ell]}_{m,1}\) iff \(\frac{m+1}2-\frac{5\ell}2\le r\le\frac{3m-1}2-\frac{5\ell}2\) when
+\(\ell\) is even, and \(m-\frac{5\ell-1}2\le r\le 2m-\frac{5\ell+1}2\) when \(\ell\) is odd.
+\(\chi_P:=1\) if \(P\) holds and \(0\) otherwise.
+\end{definition}
+
+\begin{definition}[Constants of Theorem 1.5 and Corollary 1.6]\label{def_T}
+\lean{ThetaSignPatterns.Tfun,ThetaSignPatterns.CT,ThetaSignPatterns.S2bounds,ThetaSignPatterns.S2,ThetaSignPatterns.epsLam}
+\leanok
+\(T^{[\lambda]}_m(n):=\cos\bigl(\pi(\tfrac\lambda6-\tfrac n3+\varepsilon_m(\tfrac{2n-\lambda}{6m}+\tfrac\lambda{m^2}))\bigr)\);
+\(\widetilde C_m:=e^{\pi i(\frac16-\frac{\varepsilon_m}{6m}+\frac{\varepsilon_m}{m^2})}\);
+\(S^{[\lambda],\pm}_{m,2}\) is the integer interval of Corollary~1.6 with \(\pm=\varepsilon_m\)
+(upper sign for \(m\equiv1\pmod6\)):
+\([\frac{m+1}2+\frac\lambda6,\frac{3m-1}2+\frac\lambda6]\), \([\frac{(3\mp1)m+4}6+\frac{\lambda-1}6,\frac{(9\mp1)m-2}6+\frac{\lambda-1}6]\),
+\([\frac{(3\mp2)m+5}6+\frac{\lambda-2}6,\frac{(9\mp2)m-1}6+\frac{\lambda-2}6]\), \([\frac{\lambda+3}6,m+\frac{\lambda-3}6]\),
+\([\frac{(3\pm2)m+7}6+\frac{\lambda-4}6,\frac{(9\pm2)m+1}6+\frac{\lambda-4}6]\), \([\frac{(3\pm1)m+8}6+\frac{\lambda-5}6,\frac{(9\pm1)m+2}6+\frac{\lambda-5}6]\)
+according as \(\lambda\equiv0,1,2,3,4,5\pmod 6\); and \(\epsilon^{[\lambda]}_m:=1\) if
+\(\lambda\equiv0,1,2\), \(-1\) if \(\lambda\equiv4,5\), and the Jacobi symbol \(\left(\frac m3\right)\)
+if \(\lambda\equiv3\pmod 6\).
+\end{definition}
+\begin{uses-statement}
+\ref{def_LamT}
+\end{uses-statement}
+
+% ======================================================================
+\section{External results}\label{sec_ext}
+
+The following are assumed (cited, not proved). Each is the corresponding field of
+\(\mathcal H\).
+
+\begin{proposition}[E1: Rademacher--Zuckerman, dominant-cusp form]\label{prop_E1}
+\lean{ThetaSignPatterns.RademacherZuckermanDominant,ThetaSignPatterns.ExternalResults.rademacherZuckerman}
+\leanok
+Let \(f\) be weakly holomorphic modular of weight \(0\) with
+\(f(\tau)=\sum_{n\ge0}a(n)e^{2\pi i(n+\delta)\tau}\) on \(\mathbb H\). Let \(0<\Lambda\),
+\(\Lambda'<\Lambda\), let \(D\) be a finite set of reduced cusps and \(C_p\in\mathbb C\) such
+that \(f(\frac{h+iz}k)e^{-\Lambda k/z}\to C_{(h,k)}\) as \(z\to0^+\) for \((h,k)\in D\), and
+\(f(\frac{h+iz}k)=O(e^{\Lambda' k/z})\) as \(z\to0^+\) for every reduced cusp \((h,k)\notin D\).
+Then \(a(n)-\sum_{p\in D}\mathcal T_{\Lambda,\delta}(p,C_p;n)=o\bigl(n^{-3/4}e^{\sqrt{8\pi\Lambda n}}\bigr)\).
+(Theorem~2.1 of the paper with the convergence estimates of Rademacher--Zuckerman [14],
+Zuckerman [18], Bringmann--Ono [6].)
+\end{proposition}
+\begin{uses-statement}
+\ref{def_WH}, \ref{def_cusp}, \ref{def_rzTerm}
+\end{uses-statement}
+
+\begin{proposition}[E2.1: theta at a cusp; {[4, Lemma 2.1(1)]}]\label{prop_E21}
+\lean{ThetaSignPatterns.ThetaCuspTransform,ThetaSignPatterns.ExternalResults.thetaCuspTransform}
+\leanok
+Let \(k\in\mathbb N\), \(h,h'\in\mathbb Z\), \(\gcd(h,k)=1\), \(k\mid hh'+1\), \(z>0\). There is
+\(c\ne0\) such that for all \(w\in\mathbb C\),
+\(\vartheta(w;\frac{h+iz}k)=c\,e^{-\pi kw^2/z}\,\vartheta(\frac{iw}z;\frac{h'+i/z}k)\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{proposition}[E2.3: Jacobi triple product]\label{prop_E23}
+\lean{ThetaSignPatterns.ThetaTripleProduct,ThetaSignPatterns.ExternalResults.thetaTripleProduct}
+\leanok
+For \(\Ima\tau>0\), \(\zeta=e^{2\pi iw}\):
+\(\vartheta(w;\tau)=-i e^{\pi i\tau/4}e^{-\pi iw}\prod_{n\ge0}(1-q^{n+1})(1-\zeta q^{n})(1-\zeta^{-1}q^{n+1})\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{proposition}[E2.5: modularity of thetas; Eichler--Zagier, Zwegers]\label{prop_E25}
+\lean{ThetaSignPatterns.ThetaModular,ThetaSignPatterns.ExternalResults.thetaModular}
+\leanok
+For \(\lambda\in\mathbb Q\setminus\mathbb Z\), \(\Theta_\lambda\) is weakly holomorphic modular of
+weight \(\frac12\) and bounded below at the cusps.
+\end{proposition}
+\begin{uses-statement}
+\ref{def_thetaRat}, \ref{def_WH}
+\end{uses-statement}
+
+\begin{proposition}[E3.1]\label{prop_E31}
+\lean{ThetaSignPatterns.ThetaAsymp1,ThetaSignPatterns.ExternalResults.thetaAsymp1}
+\leanok
+For \(0<a<1\), \(b,x_0\in\mathbb R\), as \(y\to\infty\) with \(\tau=x_0+iy\):
+\(\vartheta(a\tau+b;\tau)\sim -i e^{-\pi ib}e^{2\pi i\tau(\frac18-\frac a2)}\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{proposition}[E3.2]\label{prop_E32}
+\lean{ThetaSignPatterns.ThetaAsymp2,ThetaSignPatterns.ExternalResults.thetaAsymp2}
+\leanok
+For \(b\in\mathbb R\setminus\mathbb Z\), \(x_0\in\mathbb R\), as \(y\to\infty\) with \(\tau=x_0+iy\):
+\(\vartheta(b;\tau)\sim -2\sin(\pi b)e^{\pi i\tau/4}\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{proposition}[E3.3]\label{prop_E33}
+\lean{ThetaSignPatterns.ThetaAsymp3,ThetaSignPatterns.ExternalResults.thetaAsymp3}
+\leanok
+For \(a\in\mathbb R\), \(0<b<1\), as \(z\to0^+\):
+\(\vartheta(aiz+b;iz)\sim -e^{-2\pi iab+\pi ia}\,e^{(-b^2-\frac14+b)\pi/z}/\sqrt z\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+
+\begin{proposition}[E3.4]\label{prop_E34}
+\lean{ThetaSignPatterns.ThetaAsymp4,ThetaSignPatterns.ExternalResults.thetaAsymp4}
+\leanok
+For \(a\in\mathbb R\setminus\mathbb Z\) and \(\Delta\ge0\), as \(z\to0\) in \(R_\Delta\):
+\(\vartheta(aiz;iz)\sim -2i\sin(\pi a)\,e^{-\pi/(4z)}/\sqrt z\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_theta}, \ref{def_cone}
+\end{uses-statement}
+
+\begin{proposition}[E4]\label{prop_E4}
+\lean{ThetaSignPatterns.BesselI1Asymp,ThetaSignPatterns.ExternalResults.besselI1Asymp}
+\leanok
+\(I_1(x)\sim e^x/\sqrt{2\pi x}\) as \(x\to\infty\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_bessel}
+\end{uses-statement}
+
+\begin{proposition}[E5: Ingham's Tauberian theorem {[5, Thm.~1.1]}]\label{prop_E5}
+\lean{ThetaSignPatterns.Ingham,ThetaSignPatterns.ExternalResults.ingham}
+\leanok
+Let \(b(n)\ge0\) be weakly increasing with \(\sum b(n)q^n\) convergent for \(|q|<1\). Let
+\(\nu>0\), \(\gamma>0\), \(\beta\in\mathbb R\) with \(\sum b(n)e^{-tn}\sim\nu t^\beta e^{\gamma/t}\)
+as \(t\to0^+\) and \(\sum b(n)e^{-zn}=O(|z|^\beta e^{\gamma/|z|})\) as \(z\to0\) in each \(R_\Delta\).
+Then \(b(n)\sim\frac{\nu\gamma^{\beta/2+1/4}}{2\sqrt\pi\,n^{\beta/2+3/4}}e^{2\sqrt{\gamma n}}\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_cone}
+\end{uses-statement}
+
+\begin{proposition}[E6]\label{prop_E6}
+\lean{ThetaSignPatterns.EtaAsymp,ThetaSignPatterns.ExternalResults.etaAsymp}
+\leanok
+With \(q=e^{-z}\), \((q;q)_\infty\sim\sqrt{2\pi/z}\,e^{-\pi^2/(6z)}\) as \(z\to0\) in each \(R_\Delta\).
+\end{proposition}
+\begin{uses-statement}
+\ref{def_qpoch}, \ref{def_cone}
+\end{uses-statement}
+
+% ======================================================================
+\section{Theta functions and infinite products}
+
+\begin{lemma}[Lemma 2.2(2): quasi-periodicity]\label{lem_theta_quasi}
+\lean{ThetaSignPatterns.theta_quasi}
+\leanok
+For \(\lambda,\mu\in\mathbb Z\), \(w\in\mathbb C\), \(\Ima\tau>0\):
+\(\vartheta(w+\lambda\tau+\mu;\tau)=(-1)^{\lambda+\mu}e^{-\pi i\lambda^2\tau}e^{-2\pi i\lambda w}\vartheta(w;\tau)\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_theta}
+\end{uses-statement}
+\begin{proof}
+In the series, \(e^{2\pi i(k+\frac12)\mu}=(-1)^\mu\) because \((k+\frac12)\mu\in\frac\mu2+\mathbb Z\)
+contributes \(e^{\pi i\mu}e^{2\pi i k\mu}\). For the shift by \(\lambda\tau\), substitute
+\(k\mapsto k-\lambda\): \((k-\lambda+\frac12)^2\tau+2(k-\lambda+\frac12)(w+\lambda\tau+\frac12)
+=(k+\frac12)^2\tau+2(k+\frac12)(w+\frac12)-\lambda^2\tau-2\lambda(w+\frac12)\), whence the factor
+\(e^{-\pi i\lambda^2\tau}e^{-2\pi i\lambda w}e^{-\pi i\lambda}\). The series converges absolutely, so
+reindexing over \(\mathbb Z\) is allowed.
+\end{proof}
+\begin{uses-proof}
+\ref{def_theta}
+\end{uses-proof}
+
+\begin{lemma}[Coefficient stabilisation]\label{lem_coeff_stable}
+\lean{ThetaSignPatterns.coeffC_eq_partial,ThetaSignPatterns.coeffGamma_eq_partial}
+\leanok
+For \(m\ge1\), \(N>n\): the coefficient of \(X^n\) in \((\prod_{j<N}U_{m,j})^\ell\) is
+\(c^{[\ell]}_m(n)\); likewise for \(\widetilde U\) and \(\gamma^{[\ell]}_m(n)\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_coeff}
+\end{uses-statement}
+\begin{proof}
+For \(j\ge n+1\), \(U_{m,j}\equiv1\pmod{X^{mj+1}}\) and \(mj+1>n\); hence
+\(\prod_{j<N}U_{m,j}\equiv\prod_{j\le n}U_{m,j}\pmod{X^{n+1}}\), and the same holds for
+\(\ell\)-th powers.
+\end{proof}
+\begin{uses-proof}
+\ref{def_coeff}
+\end{uses-proof}
+
+\begin{lemma}[Analytic expansion of the products]\label{lem_expansion}
+\lean{ThetaSignPatterns.Fan_ne_zero,ThetaSignPatterns.Ftan_eq_inv,ThetaSignPatterns.hasSum_coeffC,ThetaSignPatterns.hasSum_coeffGamma}
+\leanok
+Let \(m\ge3\), \(\ell\in\mathbb N_0\), \(|q|<1\). Then \(F_m(q)\ne0\),
+\(\widetilde F_m(q)=F_m(q)^{-1}\), \(\sum_{n\ge0}c^{[\ell]}_m(n)q^n=F_m(q)^\ell\) and
+\(\sum_{n\ge0}\gamma^{[\ell]}_m(n)q^n=\widetilde F_m(q)^\ell\) (convergent series).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Fan}, \ref{def_coeff}
+\end{uses-statement}
+\begin{proof}
+Write \(u_{m,j}=1+v_j\). On \(|q|\le r<1\), \(|v_j(q)|\le C_r r^{mj+1}\), summable; by the uniform
+product theorem the partial products \(P_N=\prod_{j<N}u_{m,j}\) converge to \(F_m\) uniformly on
+compact subsets of the unit disc, \(F_m\ne0\) (no factor vanishes), and likewise
+\(\prod_{j<N}u_{m,j}^{-1}\to\widetilde F_m=F_m^{-1}\). Each \(P_N^\ell\) is holomorphic on the disc and
+equals \(\sum_n p_N(n)q^n\) with \(p_N(n)\) the formal coefficients of
+\((\prod_{j<N}U_{m,j})^\ell\): for the factors \(1-q^e\) and \(\sum_{e\mid n}q^n=(1-q^e)^{-1}\) this
+is direct, and products of absolutely convergent power series are Cauchy products. By uniqueness of
+Taylor coefficients, \(p_N(n)=P_N^{(n)}(0)/n!\). Locally uniform convergence of holomorphic functions
+gives \(P_N^{(n)}(0)\to (F_m^\ell)^{(n)}(0)\), and by Lemma~\ref{lem_coeff_stable}
+\(p_N(n)=c^{[\ell]}_m(n)\) for \(N>n\); so \(c^{[\ell]}_m(n)\) is the \(n\)-th Taylor coefficient of
+\(F_m^\ell\), and the Taylor series of a function holomorphic on the unit disc converges to it there.
+The same argument applies to \(\widetilde F_m\).
+\end{proof}
+\begin{uses-proof}
+\ref{lem_coeff_stable}
+\end{uses-proof}
+
+\begin{lemma}[Theta quotient as a product]\label{lem_Fan_theta}
+\lean{ThetaSignPatterns.theta_ne_zero_of,ThetaSignPatterns.Fan_eq_theta}
+\leanok
+Assume \(\mathcal H\). Let \(m\ge3\), \(w,T\in\mathbb C\), \(\Ima w>0\), \(mw-T\in\mathbb Z\). Then
+\(\vartheta(w;T)\ne0\), \(\vartheta(2w;T)\ne0\) and
+\(F_m(e^{2\pi iw})=e^{-\pi iw}\vartheta(w;T)/\vartheta(2w;T)\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_theta}, \ref{def_Fan}, \ref{prop_E23}
+\end{uses-statement}
+\begin{proof}
+Put \(x=e^{2\pi iw}\), \(Q=e^{2\pi iT}=x^m\) (as \(mw-T\in\mathbb Z\)); \(|x|<1\). By E2.3 with
+\(\zeta=x^j\) (\(j=1,2\)): \(\vartheta(jw;T)=-ie^{\pi iT/4}e^{-\pi ijw}\prod_n(1-Q^{n+1})(1-x^{mn+j})(1-x^{mn+m-j})\),
+using \(x^{-j}Q^{n+1}=x^{mn+m-j}\). All factors are nonzero (\(|x|<1\), \(1\le j\), \(m-j\ge1\)) and
+\(1-\)(factor) is summable in norm, so the products are nonzero. Dividing, the factors \(1-Q^{n+1}\)
+and the prefactors \(-ie^{\pi iT/4}\) cancel, and the quotient of the remaining products is
+\(\prod_n u_{m,n}(x)=F_m(x)\) (quotients of convergent products of nonzero factors), times
+\(e^{-\pi iw}/e^{-2\pi iw}=e^{\pi iw}\). Hence \(\vartheta(w;T)/\vartheta(2w;T)=e^{\pi iw}F_m(x)\).
+\end{proof}
+\begin{uses-proof}
+\ref{prop_E23}
+\end{uses-proof}
+
+\begin{lemma}[Real coefficients]\label{lem_Fan_conj}
+\lean{ThetaSignPatterns.Fan_conj,ThetaSignPatterns.Ftan_conj}
+\leanok
+For \(m\ge3\) and \(|q|<1\): \(F_m(\bar q)=\overline{F_m(q)}\) and
+\(\widetilde F_m(\bar q)=\overline{\widetilde F_m(q)}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Fan}
+\end{uses-statement}
+\begin{proof}
+Each factor satisfies \(u_{m,j}(\bar q)=\overline{u_{m,j}(q)}\), and complex conjugation is a
+continuous ring automorphism, so it commutes with convergent infinite products.
+\end{proof}
+\begin{uses-proof}
+\ref{def_Fan}
+\end{uses-proof}
+
+\begin{lemma}[The modular functions as products]\label{lem_fMod_eq}
+\lean{ThetaSignPatterns.fMod_eq,ThetaSignPatterns.fModT_eq,ThetaSignPatterns.hasSum_fMod,ThetaSignPatterns.hasSum_fModT}
+\leanok
+Assume \(\mathcal H\), \(m\ge3\), \(\ell\in\mathbb N_0\), \(\Ima\tau>0\). Then \(f_{m,\ell}(\tau)=e^{2\pi i\delta_{m,\ell}\tau}F_m(q)^\ell\) and
+\(\widetilde f_{m,\ell}(\tau)=e^{-2\pi i\delta_{m,\ell}\tau}\widetilde F_m(q)^\ell\). Consequently
+\(f_{m,\ell}(\tau)=\sum_{n\ge0}c^{[\ell]}_m(n)e^{2\pi i(n+\delta_{m,\ell})\tau}\) and
+\(\widetilde f_{m,\ell}(\tau)=\sum_{n\ge0}\gamma^{[\ell]}_m(n)e^{2\pi i(n-\delta_{m,\ell})\tau}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_fMod}, \ref{def_Fan}, \ref{def_coeff}
+\end{uses-statement}
+\begin{proof}
+Lemma~\ref{lem_Fan_theta} with \(w=\tau\), \(T=m\tau\) gives
+\(\vartheta(\tau;m\tau)/\vartheta(2\tau;m\tau)=e^{\pi i\tau}F_m(q)\), so
+\(f_{m,\ell}(\tau)=(e^{-3\pi i\tau/m}e^{\pi i\tau}F_m(q))^\ell=e^{\pi i\ell(1-3/m)\tau}F_m(q)^\ell\), and
+\(\pi\ell(1-3/m)=2\pi\delta_{m,\ell}\). The second identity is the reciprocal, using
+\(\widetilde F_m=F_m^{-1}\) (Lemma~\ref{lem_expansion}). The expansions follow from
+Lemma~\ref{lem_expansion} at \(q=e^{2\pi i\tau}\), \(|q|<1\).
+\end{proof}
+\begin{uses-proof}
+\ref{lem_Fan_theta}, \ref{lem_expansion}
+\end{uses-proof}
+
+% ======================================================================
+\section{Modularity}
+
+\begin{lemma}[Quotients of weight one-half forms]\label{lem_quot_modular}
+\lean{ThetaSignPatterns.isWHModular_quot}
+\leanok
+Let \(g_1,g_2\) be weakly holomorphic modular of weight \(\frac12\), \(g_2\) bounded below at the
+cusps and nonvanishing on \(\mathbb H\), and \(\ell\in\mathbb N_0\). Then
+\(\tau\mapsto(g_1(\tau)/g_2(\tau))^\ell\) is weakly holomorphic modular of weight \(0\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_WH}
+\end{uses-statement}
+\begin{proof}
+Holomorphy: quotient and power of holomorphic functions with nonvanishing denominator.
+Group: \(\Gamma_1\cap\Gamma_2\) has finite index. Multiplier: for \(\gamma\in\Gamma_1\cap\Gamma_2\),
+\(j(\gamma,\tau)\ne0\) on \(\mathbb H\), so \(g_1(\gamma\tau)/g_2(\gamma\tau)=(\chi_1(\gamma)/\chi_2(\gamma))g_1(\tau)/g_2(\tau)\)
+and \(|\chi_1/\chi_2|^\ell=1\); \(j^0=1\). Cusps: \(|g_1(\gamma\tau)/g_2(\gamma\tau)|
+=|j^{-1/2}g_1(\gamma\tau)|/|j^{-1/2}g_2(\gamma\tau)|\le (C/c)e^{(A+A')\Ima\tau}\) for \(\Ima\tau\ge\max(T,T')\).
+\end{proof}
+\begin{uses-proof}
+\ref{def_WH}
+\end{uses-proof}
+
+\begin{lemma}[Level raising]\label{lem_level_raise}
+\lean{ThetaSignPatterns.isWHModular_comp_mul}
+\leanok
+If \(g\) is weakly holomorphic modular of weight \(0\) and \(N\in\mathbb N\), then
+\(\tau\mapsto g(N\tau)\) is weakly holomorphic modular of weight \(0\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_WH}
+\end{uses-statement}
+\begin{proof}
+Holomorphy is clear. Let \(\Gamma'=\{\gamma\in\Gamma_0(N):\ \psi(\gamma)\in\Gamma\}\) with
+\(\psi\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)=\left(\begin{smallmatrix}a&Nb\\c/N&d\end{smallmatrix}\right)\),
+a homomorphism \(\Gamma_0(N)\to\mathrm{SL}_2(\mathbb Z)\); \(\Gamma'\) is the preimage of the
+finite-index \(\Gamma\), hence of finite index in \(\Gamma_0(N)\), which has finite index in
+\(\mathrm{SL}_2(\mathbb Z)\). For \(\gamma\in\Gamma'\), \(N(\gamma\tau)=\psi(\gamma)(N\tau)\), so
+\(g(N\gamma\tau)=\chi(\psi(\gamma))g(N\tau)\). Cusps: for \(\gamma\in\mathrm{SL}_2(\mathbb Z)\) there are
+\(\gamma''\in\mathrm{SL}_2(\mathbb Z)\) and integers \(a'd'=N\), \(d'>0\), \(b'\), with
+\(\left(\begin{smallmatrix}N&0\\0&1\end{smallmatrix}\right)\gamma=\gamma''\left(\begin{smallmatrix}a'&b'\\0&d'\end{smallmatrix}\right)\)
+(Hermite normal form of the integer matrix of determinant \(N\)); then
+\(N\gamma\tau=\gamma''\tau''\) with \(\tau''=(a'\tau+b')/d'\), \(\Ima\tau''=(a'/d')\Ima\tau\), and the
+growth bound of \(g\) at \(\gamma''\) gives \(|g(N\gamma\tau)|\le Ce^{(Aa'/d')\Ima\tau}\) once
+\(\Ima\tau\ge Td'/a'\).
+\end{proof}
+\begin{uses-proof}
+\ref{def_WH}
+\end{uses-proof}
+
+\begin{lemma}[The functions of Theorems 1.1 and 1.5 are modular]\label{lem_fMod_modular}
+\lean{ThetaSignPatterns.fMod_isWHModular,ThetaSignPatterns.fModT_isWHModular}
+\leanok
+Assume \(\mathcal H\), \(m\ge3\), \(\ell\in\mathbb N_0\). Then \(f_{m,\ell}\) and
+\(\widetilde f_{m,\ell}\) are weakly holomorphic modular of weight \(0\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_fMod}, \ref{def_WH}
+\end{uses-statement}
+\begin{proof}
+\(f_{m,\ell}(\tau)=Q(m\tau)\) with \(Q=(\Theta_{1/m}/\Theta_{2/m})^\ell\), since
+\(\Theta_{j/m}(m\tau)=e^{\pi ij^2\tau/m}\vartheta(j\tau;m\tau)\). As \(m\ge3\), \(1/m,2/m\notin\mathbb Z\),
+so E2.5 applies to both. \(\Theta_{1/m},\Theta_{2/m}\) do not vanish on \(\mathbb H\) by
+Lemma~\ref{lem_Fan_theta} (with \(w=\tau'/m\), \(T=\tau'\)). Lemma~\ref{lem_quot_modular} makes \(Q\)
+(and \((\Theta_{2/m}/\Theta_{1/m})^\ell\)) modular of weight \(0\), and Lemma~\ref{lem_level_raise}
+with \(N=m\) finishes.
+\end{proof}
+\begin{uses-proof}
+\ref{def_thetaRat}, \ref{prop_E25}, \ref{lem_Fan_theta}, \ref{lem_quot_modular}, \ref{lem_level_raise}
+\end{uses-proof}
+
+% ======================================================================
+\section{Growth at the cusps (Lemmas 3.1 and 5.1)}
+
+\begin{lemma}[Theta along vertical lines]\label{lem_theta_vertical}
+\lean{ThetaSignPatterns.theta_vertical}
+\leanok
+Assume \(\mathcal H\). Let \(a,b,x_0\in\mathbb R\), and if \(a\in\mathbb Z\) assume
+\(b\notin\mathbb Z\). There are \(0<c_1\le c_2\) such that for \(\tau=x_0+iy\) and all large \(y\),
+\(c_1\le|\vartheta(a\tau+b;\tau)|\,e^{-\pi y(a^2+\mathfrak g(a)-1/4)}\le c_2\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_theta}, \ref{def_Acusp}
+\end{uses-statement}
+\begin{proof}
+Let \(\lambda=\lfloor a\rfloor\), \(a'=\fr a\). Lemma~\ref{lem_theta_quasi} with \(w=a'\tau+b\),
+\(\mu=0\) gives \(|\vartheta(a\tau+b;\tau)|=e^{2\pi y(\lambda^2/2+\lambda a')}|\vartheta(a'\tau+b;\tau)|\)
+(\(b\) real). If \(a'>0\), E3.1 gives \(|\vartheta(a'\tau+b;\tau)|\sim e^{-2\pi y(1/8-a'/2)}\); if
+\(a'=0\), E3.2 gives \(|\vartheta(b;\tau)|\sim 2|\sin\pi b|e^{-\pi y/4}\), with \(\sin\pi b\ne0\). In both
+cases the total exponent is \(2\pi y(\lambda^2/2+\lambda a'-1/8+a'/2)=\pi y(a^2+\mathfrak g(a)-1/4)\),
+since \(a^2=\lambda^2+2\lambda a'+a'^2\). A ratio tending to a positive limit is eventually between
+half and twice the limit.
+\end{proof}
+\begin{uses-proof}
+\ref{lem_theta_quasi}, \ref{prop_E31}, \ref{prop_E32}
+\end{uses-proof}
+
+\begin{lemma}[Lemma 3.1: growth of \(G_m\) at every cusp]\label{lem_31}
+\lean{ThetaSignPatterns.Gm_cusp_growth}
+\leanok
+Assume \(\mathcal H\). Let \(m\ge3\) be odd, \(k\in\mathbb N\), \(h\in\mathbb Z\), \(\gcd(h,k)=1\).
+There are \(0<c_1\le c_2\) such that for all small \(z>0\),
+\(c_1e^{A_m(h,k)/z}\le|G_m(\frac{h+iz}k)|\le c_2e^{A_m(h,k)/z}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Gm}, \ref{def_Acusp}
+\end{uses-statement}
+\begin{proof}
+Let \(d,\mu,\kappa\) be as in Definition~\ref{def_Acusp}, \(\tau=\frac{h+iz}k\),
+\(H=\mu h\), \(K=\kappa\), \(Z=\mu z\); then \(m\tau=\frac{H+iZ}K\) and \(\gcd(H,K)=1\). Choose \(H'\)
+with \(K\mid HH'+1\) and put \(\tau_1=\frac{H'+i/Z}K\), \(y=\Ima\tau_1=\frac1{\kappa\mu z}\). By E2.1
+(same \(c\) for \(w=\tau,2\tau\)): \(G_m(\tau)=e^{3\pi K\tau^2/Z}\vartheta(\frac{i\tau}Z;\tau_1)/\vartheta(\frac{2i\tau}Z;\tau_1)\).
+One computes \(\frac{i\tau}Z=a\tau_1+b\) with \(a=h/d\) and \(b=-\frac{1+HH'}{mK}\in\mathbb R\), and
+\(\frac{2i\tau}Z=2a\tau_1+2b\); also \(|e^{3\pi K\tau^2/Z}|=e^{3\pi h^2/(kmz)}e^{-3\pi z/(km)}\). If
+\(a\in\mathbb Z\) then \(d\mid h\), so \(d=1\), \(K=k\), \(t:=(1+HH')/K\in\mathbb Z\) satisfies
+\(Kt\equiv1\pmod m\), hence \(\gcd(t,m)=1\) and, \(m\) being odd and \(\ge3\), \(b=-t/m\notin\mathbb Z\)
+and \(2b\notin\mathbb Z\); if \(2a\in\mathbb Z\) then \(d\mid 2\), so again \(d=1\) (\(d\mid m\) is odd).
+Lemma~\ref{lem_theta_vertical} (with \(x_0=H'/K\)) bounds the two thetas, and the exponent is
+\(\frac{3\pi h^2}{kmz}+\pi y\bigl((a^2+\mathfrak g(a))-(4a^2+\mathfrak g(2a))\bigr)
+=\frac{3\pi h^2}{kmz}-3\pi a^2y+\pi y(\mathfrak g(a)-\mathfrak g(2a))\). Since
+\(a^2y=\frac{h^2}{d^2\kappa\mu z}=\frac{h^2}{kmz}\), the first two terms cancel and the rest is
+\(A_m(h,k)/z\). The factor \(e^{-3\pi z/(km)}\in[\frac12,1]\) for small \(z\).
+\end{proof}
+\begin{uses-proof}
+\ref{prop_E21}, \ref{lem_theta_vertical}
+\end{uses-proof}
+
+\begin{lemma}[Cusp bounds for \(f_{m,\ell}\) and \(\widetilde f_{m,\ell}\) (Lemmas 3.1, 5.1)]\label{lem_cusp_bound}
+\lean{ThetaSignPatterns.fMod_cusp_bound,ThetaSignPatterns.fModT_cusp_bound}
+\leanok
+Assume \(\mathcal H\). Let \(m\ge3\) odd, \(\ell\in\mathbb N_0\), \(k\in\mathbb N\),
+\(\gcd(h,k)=1\). There is \(K\) such that for all small \(z>0\),
+\(|f_{m,\ell}(\frac{h+iz}k)|\le Ke^{\ell A_m(h,k)/z}\) and
+\(|\widetilde f_{m,\ell}(\frac{h+iz}k)|\le Ke^{-\ell A_m(h,k)/z}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_fMod}, \ref{def_Acusp}
+\end{uses-statement}
+\begin{proof}
+\(f_{m,\ell}=(e^{-3\pi i\tau/m}G_m)^\ell\) and \(\widetilde f_{m,\ell}=(e^{-3\pi i\tau/m}G_m)^{-\ell}\);
+\(|e^{-3\pi i\tau/m}|=e^{3\pi z/(km)}\in[1,2]\) for small \(z\). Apply Lemma~\ref{lem_31} (upper
+bound for \(f\), lower bound for \(\widetilde f\)).
+\end{proof}
+\begin{uses-proof}
+\ref{lem_31}
+\end{uses-proof}
+
+% ======================================================================
+\section{Dominant cusps (Lemmas 3.2 and 5.2)}
+
+\begin{lemma}[Lemma 3.2, value at the dominant cusps]\label{lem_32_eq}
+\lean{ThetaSignPatterns.domOdd_reduced,ThetaSignPatterns.Acusp_domOdd}
+\leanok
+For odd \(m\ge5\) and \((h,k)\in D_m\): \(A_m(h,k)=k\Lambda_m\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Acusp}, \ref{def_LamOdd}
+\end{uses-statement}
+\begin{proof}
+Here \(k=d=m\), \(\mu=\kappa=1\), \(\fr{h/m}=\frac12\mp\frac1{2m}\), \(\fr{2h/m}=1-\frac1m\) resp.
+\(\frac1m\). So \(\mathfrak g(h/m)=\frac14-\frac1{4m^2}\), \(\mathfrak g(2h/m)=\frac1m-\frac1{m^2}\), and
+\(A_m=\pi(\frac14-\frac1m+\frac3{4m^2})=\frac{\pi(m-1)(m-3)}{4m^2}=m\Lambda_m\).
+\end{proof}
+\begin{uses-proof}
+\ref{def_Acusp}
+\end{uses-proof}
+
+\begin{lemma}[Lemma 3.2, the gap]\label{lem_32_gap}
+\lean{ThetaSignPatterns.Acusp_le_LamOdd',ThetaSignPatterns.LamOdd'_lt}
+\leanok
+For odd \(m\ge5\) and every reduced cusp \((h,k)\notin D_m\): \(A_m(h,k)\le k\Lambda'_m\);
+moreover \(\Lambda'_m<\Lambda_m\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Acusp}, \ref{def_LamOdd}
+\end{uses-statement}
+\begin{proof}
+Put \(x=\fr{h/d}=j/d\) with \(0\le j<d\). Then \(\fr{2h/d}=\fr{2x}\) and
+\(e(x):=\mathfrak g(x)-\mathfrak g(2x)=3x^2-x\) for \(x<\frac12\), \(=3x^2-5x+2\) for \(x\ge\frac12\);
+\(e(1-x)=e(x)\). Also \(\frac{A_m(h,k)}k=\frac{\pi d^2}{mk^2}e(x)\). Since \(d\mid m\) is odd,
+\(x\ne\frac12\); on \([0,\frac{d-1}{2d}]\) the convex function \(3x^2-x\) is maximal at an endpoint,
+so \(e(j/d)\le\frac{(d-1)(d-3)}{4d^2}\) with equality only for \(j\in\{\frac{d-1}2,\frac{d+1}2\}\)
+(or when the bound is \(0\)). Cases:
+(i) \(k\ne d\): then \(k\ge2d\) and \(\frac{A}k\le\frac{\pi}{16m}\cdot\frac{(d-1)(d-3)}{d^2}\le\frac{\pi}{4m}\cdot\frac14\).
+(ii) \(k=d<m\): \(d\le m/3\) and \(\frac Ak\le\frac\pi{4m}(1-\frac1d)(1-\frac3d)\le\frac\pi{4m}\max(0,(1-\frac3m)(1-\frac9m))\),
+as \((1-\frac1x)(1-\frac3x)\) increases for \(x\ge\frac32\) and is \(0\) at \(x=1\).
+(iii) \(k=d=m\), \(h\notin\{\frac{m\pm1}2\}\): \(x\le\frac{m-3}{2m}\) or \(x\ge\frac{m+3}{2m}\), so
+\(e(x)\le\max(0,\frac{(m-3)(m-9)}{4m^2})\) and \(\frac Ak\le\frac\pi{4m}\max(0,\frac{(m-3)(m-9)}{m^2})\).
+In all cases \(\frac Ak\le\Lambda'_m\). Finally \(\frac{(m-3)(m-9)}{m^2}<\frac{(m-1)(m-3)}{m^2}\) and
+\(\frac14<\frac{(m-1)(m-3)}{m^2}\) (\(3m^2-16m+12>0\) for \(m\ge5\)), so \(\Lambda'_m<\Lambda_m\).
+\end{proof}
+\begin{uses-proof}
+\ref{def_Acusp}
+\end{uses-proof}
+
+\begin{lemma}[Lemma 5.2, value at the dominant cusps]\label{lem_52_eq}
+\lean{ThetaSignPatterns.domT_reduced,ThetaSignPatterns.Acusp_domT}
+\leanok
+For \(m\ge5\) with \(\gcd(m,6)=1\) and \((h,k)\in\widetilde D_m\): \(-A_m(h,k)=k\widetilde\Lambda_m\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Acusp}, \ref{def_LamT}
+\end{uses-statement}
+\begin{proof}
+\(k=d=m\). For \(h=\frac{m-\varepsilon_m}6\), \(x=\frac{m-\varepsilon_m}{6m}<\frac12\) and
+\(-e(x)=x-3x^2=x(1-3x)=\frac{m-\varepsilon_m}{6m}\cdot\frac{m+\varepsilon_m}{2m}=\frac{m^2-1}{12m^2}\); for
+\(h=\frac{5m+\varepsilon_m}6=m-\frac{m-\varepsilon_m}6\) use \(e(1-x)=e(x)\). So
+\(-A=\frac{\pi(m^2-1)}{12m^2}=m\widetilde\Lambda_m\).
+\end{proof}
+\begin{uses-proof}
+\ref{def_Acusp}
+\end{uses-proof}
+
+\begin{lemma}[Lemma 5.2, the gap]\label{lem_52_gap}
+\lean{ThetaSignPatterns.neg_Acusp_le_LamT',ThetaSignPatterns.LamT'_lt}
+\leanok
+For \(m\ge5\) with \(\gcd(m,6)=1\) and every reduced cusp \((h,k)\notin\widetilde D_m\):
+\(-A_m(h,k)\le k\widetilde\Lambda'_m\); moreover \(\widetilde\Lambda'_m<\widetilde\Lambda_m\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Acusp}, \ref{def_LamT}
+\end{uses-statement}
+\begin{proof}
+With \(x=j/d\) as before, \(-e(x)=\frac1{12}-3(x-\frac16)^2=\frac1{12}-\frac{(6j-d)^2}{12d^2}\) for
+\(x<\frac12\), and \(-e(1-x)=-e(x)\). As \(\gcd(d,6)=1\), \(6j-d\equiv-d\not\equiv0,\pm2,\pm3\pmod 6\), so
+\(|6j-d|\in\{1,5,7,\dots\}\), and \(-e(x)\le\frac{d^2-1}{12d^2}\) with equality only for
+\(|6j-d|=1\); otherwise \(-e(x)\le\frac{d^2-25}{12d^2}\). Cases: (i) \(k\ne d\): \(k\ge2d\),
+\(\frac{-A}k\le\frac{\pi d^2}{4md^2}\cdot\frac1{12}=\frac\pi{12m}\cdot\frac14\). (ii) \(k=d<m\): \(d\le m/5\),
+\(\frac{-A}k\le\frac{\pi}{12m}(1-\frac1{d^2})\le\frac\pi{12m}(1-\frac{25}{m^2})\) (or \(\le0\) if \(d=1\)).
+(iii) \(k=d=m\), \(h\notin\{\frac{m-\varepsilon_m}6,\frac{5m+\varepsilon_m}6\}\): \(|6j-m|\ge5\) (for
+\(x<\frac12\); symmetrically for \(x>\frac12\)), so \(\frac{-A}k\le\frac\pi{12m}\frac{m^2-25}{m^2}\). Finally
+\(\frac14<\frac{24}{25}\le\frac{m^2-1}{m^2}\) and \(m^2-25<m^2-1\), so \(\widetilde\Lambda'_m<\widetilde\Lambda_m\).
+\end{proof}
+\begin{uses-proof}
+\ref{def_Acusp}
+\end{uses-proof}
+
+% ======================================================================
+\section{Leading constants (Lemmas 3.3 and 5.3)}
+
+\begin{lemma}[Lemma 3.3]\label{lem_33}
+\lean{ThetaSignPatterns.Fan_dom₁,ThetaSignPatterns.Fan_dom₂}
+\leanok
+Assume \(\mathcal H\), \(m\ge5\) odd, \(h_1=\frac{m-1}2\), \(A^*=\pi(\frac14-\frac1m+\frac3{4m^2})\).
+As \(z\to0^+\): \(F_m(e^{2\pi i(h_1+iz)/m})e^{-A^*/z}\to C_m\) and
+\(F_m(e^{2\pi i(m-h_1+iz)/m})e^{-A^*/z}\to\overline{C_m}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Fan}, \ref{def_phi}
+\end{uses-statement}
+\begin{proof}
+Lemma~\ref{lem_Fan_theta} with \(w=\frac{h_1+iz}m=b_1+a_1iz\), \(a_1=\frac1m\),
+\(b_1=\frac12-\frac1{2m}\), and \(T=iz\) (\(mw-T=h_1\)) gives
+\(F_m=e^{-\pi iw}\vartheta(a_1iz+b_1;iz)/\vartheta(a_2iz+b_2;iz)\) with \(a_2=\frac2m\),
+\(b_2=1-\frac1m\in(0,1)\). By E3.3 the quotient is asymptotic to
+\(e^{-2\pi i(a_1b_1-a_2b_2)+\pi i(a_1-a_2)}e^{(b_1(1-b_1)-b_2(1-b_2))\pi/z}\), and
+\(b_1(1-b_1)-b_2(1-b_2)=\frac14-\frac1{4m^2}-\frac1m+\frac1{m^2}=A^*/\pi\),
+\(-2\pi i(a_1b_1-a_2b_2)+\pi i(a_1-a_2)=\frac{2\pi i}m-\frac{3\pi i}{m^2}\); with
+\(e^{-\pi iw}\to e^{-\pi ib_1}=-ie^{\pi i/(2m)}\) the limit is \(-ie^{\pi i(\frac5{2m}-\frac3{m^2})}=C_m\).
+For the second cusp, \(e^{2\pi i(m-h_1+iz)/m}=\overline{e^{2\pi i(h_1+iz)/m}}\) for real \(z\), and
+Lemma~\ref{lem_Fan_conj} gives the conjugate limit.
+\end{proof}
+\begin{uses-proof}
+\ref{lem_Fan_theta}, \ref{prop_E33}, \ref{lem_Fan_conj}
+\end{uses-proof}
+
+\begin{lemma}[Lemma 5.3]\label{lem_53}
+\lean{ThetaSignPatterns.Ftan_dom₁,ThetaSignPatterns.Ftan_dom₂}
+\leanok
+Assume \(\mathcal H\), \(m\ge5\), \(\gcd(m,6)=1\), \(h_1=\frac{m-\varepsilon_m}6\),
+\(\widetilde A^*=\frac{\pi(m^2-1)}{12m^2}\). As \(z\to0^+\):
+\(\widetilde F_m(e^{2\pi i(h_1+iz)/m})e^{-\widetilde A^*/z}\to\widetilde C_m\) and
+\(\widetilde F_m(e^{2\pi i(m-h_1+iz)/m})e^{-\widetilde A^*/z}\to\overline{\widetilde C_m}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Fan}, \ref{def_T}
+\end{uses-statement}
+\begin{proof}
+With \(w=\frac{h_1+iz}m\), \(b_1=\frac{m-\varepsilon_m}{6m}\), \(b_2=2b_1\in(0,1)\), \(a_j=\frac jm\):
+\(\widetilde F_m(e^{2\pi iw})=e^{\pi iw}\vartheta(a_2iz+b_2;iz)/\vartheta(a_1iz+b_1;iz)\)
+(Lemmas~\ref{lem_Fan_theta} and~\ref{lem_expansion}). By E3.3 the exponent is
+\(b_2(1-b_2)-b_1(1-b_1)=b_1(1-3b_1)=\frac{m^2-1}{12m^2}\), and the phase is
+\(e^{-2\pi i(a_2b_2-a_1b_1)+\pi i(a_2-a_1)}=e^{-6\pi ib_1/m+\pi i/m}=e^{\pi i\varepsilon_m/m^2}\); with
+\(e^{\pi iw}\to e^{\pi ib_1}\) the limit is \(\widetilde C_m\). The second cusp is the conjugate
+(Lemma~\ref{lem_Fan_conj}).
+\end{proof}
+\begin{uses-proof}
+\ref{lem_Fan_theta}, \ref{lem_expansion}, \ref{prop_E33}, \ref{lem_Fan_conj}
+\end{uses-proof}
+
+% ======================================================================
+\section{From the exact formula to the asymptotics}
+
+\begin{lemma}[Bessel main term]\label{lem_bessel_main}
+\lean{ThetaSignPatterns.bessel_main}
+\leanok
+Assume \(\mathcal H\). For \(\Lambda>0\), \(\delta\in\mathbb R\), as \(n\to\infty\):
+\(\sqrt{\frac{2\pi\Lambda}{n+\delta}}\,I_1(\sqrt{8\pi\Lambda(n+\delta)})\sim(\frac\Lambda{8\pi})^{1/4}n^{-3/4}e^{\sqrt{8\pi\Lambda n}}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_bessel}
+\end{uses-statement}
+\begin{proof}
+\(x_n=\sqrt{8\pi\Lambda(n+\delta)}\to\infty\), so by E4
+\(I_1(x_n)\sim e^{x_n}/\sqrt{2\pi x_n}\). Also \(x_n-\sqrt{8\pi\Lambda n}\to0\),
+\((n+\delta)/n\to1\), and \(\sqrt{2\pi\Lambda/n}/\sqrt{2\pi\sqrt{8\pi\Lambda n}}=(\Lambda/(8\pi))^{1/4}n^{-3/4}\).
+\end{proof}
+\begin{uses-proof}
+\ref{prop_E4}
+\end{uses-proof}
+
+\begin{lemma}[Two conjugate dominant cusps]\label{lem_two_cusp}
+\lean{ThetaSignPatterns.two_cusp}
+\leanok
+Assume \(\mathcal H\). Let \(\Lambda>0\), \(\delta\in\mathbb R\), \(k\in\mathbb N\),
+\(h_1+h_2=k\), \(B\in\mathbb C\), \(a:\mathbb N\to\mathbb R\), \(\kappa>0\), and suppose
+\(u(n)=\Rea(B e^{-2\pi inh_1/k})\) satisfies \(|u(n)|\ge\kappa\) for all \(n\). If
+\(a(n)-\mathcal T_{\Lambda,\delta}((h_1,k),e^{2\pi i\delta h_1/k}B;n)-\mathcal T_{\Lambda,\delta}((h_2,k),e^{2\pi i\delta h_2/k}\bar B;n)
+=o(n^{-3/4}e^{\sqrt{8\pi\Lambda n}})\), then
+\(a(n)\sim(2\Lambda/\pi)^{1/4}u(n)n^{-3/4}e^{\sqrt{8\pi\Lambda n}}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_rzTerm}
+\end{uses-statement}
+\begin{proof}
+In \(\mathcal T((h,k),e^{2\pi i\delta h/k}B';n)\) the phases \(e^{2\pi i\delta h/k}e^{-2\pi i(n+\delta)h/k}\)
+reduce to \(e^{-2\pi inh/k}\); as \(e^{-2\pi inh_2/k}=\overline{e^{-2\pi inh_1/k}}\), the two terms are
+conjugate and sum to \(2u(n)\beta_n\), \(\beta_n:=\sqrt{\frac{2\pi\Lambda}{n+\delta}}I_1(\sqrt{8\pi\Lambda(n+\delta)})\).
+By Lemma~\ref{lem_bessel_main}, \(\beta_n=(\frac\Lambda{8\pi})^{1/4}v_n(1+o(1))\),
+\(v_n=n^{-3/4}e^{\sqrt{8\pi\Lambda n}}\); \(|u|\le|B|\), so \(2u(n)\beta_n-(2\Lambda/\pi)^{1/4}u(n)v_n=o(v_n)\).
+Hence \(a(n)-(2\Lambda/\pi)^{1/4}u(n)v_n=o(v_n)=o\bigl((2\Lambda/\pi)^{1/4}u(n)v_n\bigr)\) because
+\(|u|\ge\kappa\).
+\end{proof}
+\begin{uses-proof}
+\ref{lem_bessel_main}
+\end{uses-proof}
+
+\begin{lemma}[Asymptotics give eventual signs]\label{lem_sign_equiv}
+\lean{ThetaSignPatterns.sign_eventually_of_equiv}
+\leanok
+If \(a(n)\sim v(n)\) for real sequences with \(v(n)\ne0\) for large \(n\), then
+\(\sgn a(n)=\sgn v(n)\) for \(n\gg1\).
+\end{lemma}
+\begin{proof}
+\(a(n)/v(n)\to1\), so \(a(n)/v(n)>0\) eventually.
+\end{proof}
+
+% ======================================================================
+\section{Theorem 1.1 and Corollary 1.2}
+
+\begin{lemma}[Phase of Theorem 1.1]\label{lem_phase_11}
+\lean{ThetaSignPatterns.phase_11,ThetaSignPatterns.cos_phi_ne_zero,ThetaSignPatterns.cos_phi_bound}
+\leanok
+For odd \(m\ge3\), \(\ell,n\in\mathbb N_0\):
+\(\Rea\bigl(C_m^\ell e^{-2\pi in\frac{m-1}{2m}}\bigr)=(-1)^n\cos(\pi(\varphi_m\ell-\frac nm))\), and this
+number is nonzero; its absolute value is at least some \(\kappa_{m,\ell}>0\) independent of \(n\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_phi}
+\end{uses-statement}
+\begin{proof}
+\(C_m=e^{-\pi i\varphi_m}\) since \(-\frac12+\frac5{2m}-\frac3{m^2}=-\varphi_m\), and
+\(e^{-2\pi in(m-1)/(2m)}=(-1)^ne^{\pi in/m}\); take real parts. If the cosine vanished,
+\(\varphi_m\ell-\frac nm=j+\frac12\) for some \(j\in\mathbb Z\), i.e.
+\((m-2)(m-3)\ell-2mn=m^2(2j+1)\): the left side is even and the right side odd. The value depends only
+on \(n\bmod 2m\), so \(\kappa_{m,\ell}\) is the minimum over \(0\le n<2m\).
+\end{proof}
+
+\begin{theorem}[Theorem 1.1, asymptotics]\label{thm_11_asymp}
+\lean{ThetaSignPatterns.theorem_1_1,ThetaSignPatterns.Main.theorem_1_1}
+\leanok
+Assume \(\mathcal H\). Let \(m>3\) be odd and \(\ell\in\mathbb N\). As \(n\to\infty\),
+\[c^{[\ell]}_m(n)\sim\Bigl(\frac{(1-\frac1m)(1-\frac3m)\ell}{2m}\Bigr)^{\frac14}(-1)^n\cos\bigl(\pi(\varphi_m\ell-\tfrac nm)\bigr)
+\frac{e^{\pi\sqrt{2(1-\frac1m)(1-\frac3m)\ell n/m}}}{n^{3/4}}.\]
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}, \ref{def_phi}
+\end{uses-statement}
+\begin{proof}
+Apply E1 to \(f=f_{m,\ell}\), \(a(n)=c^{[\ell]}_m(n)\), \(\delta=\delta_{m,\ell}\),
+\(\Lambda=\ell\Lambda_m\), \(\Lambda'=\ell\Lambda'_m\), \(D=D_m\),
+\(C_{(h,k)}=e^{2\pi i\delta h/k}C_m^\ell\) resp. \(e^{2\pi i\delta h/k}\overline{C_m}^\ell\). Hypotheses:
+modularity (Lemma~\ref{lem_fMod_modular}); expansion (Lemma~\ref{lem_fMod_eq}); \(\Lambda'<\Lambda\)
+(Lemma~\ref{lem_32_gap}); the dominant limits follow from Lemma~\ref{lem_fMod_eq}, which gives
+\(f(\frac{h+iz}m)=e^{2\pi i\delta(h+iz)/m}F_m(e^{2\pi i(h+iz)/m})^\ell\), and Lemma~\ref{lem_33}, as
+\(\ell A^*=m\Lambda\) (Lemma~\ref{lem_32_eq}); the bounds off \(D_m\) follow from
+Lemma~\ref{lem_cusp_bound} and \(\ell A_m(h,k)\le k\Lambda'\) (Lemma~\ref{lem_32_gap}).
+Lemma~\ref{lem_two_cusp} with \(h_1=\frac{m-1}2\), \(B=C_m^\ell\) and Lemma~\ref{lem_phase_11} give
+\(c^{[\ell]}_m(n)\sim(2\Lambda/\pi)^{1/4}(-1)^n\cos(\pi(\varphi_m\ell-\frac nm))n^{-3/4}e^{\sqrt{8\pi\Lambda n}}\),
+and \(2\Lambda/\pi=\frac{(1-\frac1m)(1-\frac3m)\ell}{2m}\),
+\(\sqrt{8\pi\Lambda n}=\pi\sqrt{2(1-\frac1m)(1-\frac3m)\ell n/m}\).
+\end{proof}
+\begin{uses-proof}
+\ref{prop_E1}, \ref{lem_fMod_modular}, \ref{lem_fMod_eq}, \ref{lem_32_eq}, \ref{lem_32_gap},
+\ref{lem_33}, \ref{lem_cusp_bound}, \ref{lem_two_cusp}, \ref{lem_phase_11}
+\end{uses-proof}
+
+\begin{theorem}[Theorem 1.1, sign]\label{thm_11_sign}
+\lean{ThetaSignPatterns.theorem_1_1_sign,ThetaSignPatterns.Main.theorem_1_1_sign}
+\leanok
+Assume \(\mathcal H\). For odd \(m>3\), \(\ell\in\mathbb N\) and \(n\gg1\):
+\(\sgn c^{[\ell]}_m(n)=(-1)^n\sgn\cos(\pi(\varphi_m\ell-\frac nm))\).
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}, \ref{def_phi}
+\end{uses-statement}
+\begin{proof}
+Theorem~\ref{thm_11_asymp}, Lemma~\ref{lem_phase_11} (the right side is nonzero) and
+Lemma~\ref{lem_sign_equiv}; the positive factors do not change the sign.
+\end{proof}
+\begin{uses-proof}
+\ref{thm_11_asymp}, \ref{lem_phase_11}, \ref{lem_sign_equiv}
+\end{uses-proof}
+
+\begin{lemma}[Sign of the cosine, Corollary 1.2]\label{lem_sign_cos_12}
+\lean{ThetaSignPatterns.sign_cos_12}
+\leanok
+Let \(\ell\in\mathbb N\), \(m>3\) odd with \(m>6\ell\), and \(0\le r\le2m-1\). Then
+\(\sgn\cos(\pi(\varphi_m\ell-\frac rm))=(-1)^{\lfloor\ell/2\rfloor+\chi_{r\in S^{[\ell]}_{m,1}}}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_phi}
+\end{uses-statement}
+\begin{proof}
+Let \(R=r+\frac{5\ell}2\), so \(\varphi_m\ell-\frac rm=\frac\ell2+\frac{3\ell}{m^2}-\frac Rm\).
+\(\ell\) even: \(\cos=(-1)^{\ell/2}\cos(\pi(\frac Rm-\frac{3\ell}{m^2}))\) with \(R\in\mathbb Z\),
+\(\frac{5\ell}2\le R<\frac{5m}2\). As \(0<\frac{3\ell}{m^2}<\frac1{2m}\) (\(m>6\ell\)), the argument lies in
+\((0,\frac\pi2)\), \((\frac\pi2,\frac{3\pi}2)\), \((\frac{3\pi}2,\frac{5\pi}2)\) according as
+\(R\le\frac{m-1}2\), \(\frac{m+1}2\le R\le\frac{3m-1}2\), \(R\ge\frac{3m+1}2\); the middle range is
+\(r\in S^{[\ell]}_{m,1}\). \(\ell\) odd: \(\cos=(-1)^{(\ell-1)/2}\sin(\pi(\frac Rm-\frac{3\ell}{m^2}))\)
+with \(R\in\frac12+\mathbb Z\), \(R<3m\); the sine is negative exactly for \(m+\frac12\le R\le2m-\frac12\)
+(again because \(\frac{3\ell}{m^2}<\frac1{2m}\)), i.e. \(r\in S^{[\ell]}_{m,1}\).
+\end{proof}
+
+\begin{theorem}[Corollary 1.2]\label{thm_12}
+\lean{ThetaSignPatterns.corollary_1_2,ThetaSignPatterns.Main.corollary_1_2}
+\leanok
+Assume \(\mathcal H\). Let \(\ell\in\mathbb N\) and \(m>3\) odd with \(m>6\ell\). For \(n\gg1\), with
+\(r\) the residue of \(n\) modulo \(2m\) in \([0,2m-1]\):
+\(\sgn c^{[\ell]}_m(n)=(-1)^{r+\lfloor\ell/2\rfloor+\chi_{r\in S^{[\ell]}_{m,1}}}\).
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}, \ref{def_phi}
+\end{uses-statement}
+\begin{proof}
+By Theorem~\ref{thm_11_sign}, for \(n\gg1\), \(\sgn c^{[\ell]}_m(n)=(-1)^n\sgn\cos(\pi(\varphi_m\ell-\frac nm))\).
+With \(n=r+2mt\): \((-1)^n=(-1)^r\) and \(\cos(\pi(\varphi_m\ell-\frac nm))=\cos(\pi(\varphi_m\ell-\frac rm)-2\pi t)\).
+Lemma~\ref{lem_sign_cos_12} finishes.
+\end{proof}
+\begin{uses-proof}
+\ref{thm_11_sign}, \ref{lem_sign_cos_12}
+\end{uses-proof}
+
+% ======================================================================
+\section{Theorem 1.3 and Corollary 1.4}
+
+\begin{lemma}[Lemma 4.1, nonnegativity]\label{lem_41_nonneg}
+\lean{ThetaSignPatterns.lemma_4_1_nonneg}
+\leanok
+For even \(m\ge4\), \(\ell\in\mathbb N\), \(n\in\mathbb N_0\): \((-1)^nc^{[\ell]}_m(n)\ge0\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_coeff}
+\end{uses-statement}
+\begin{proof}
+\((-1)^nc^{[\ell]}_m(n)\) is the coefficient of \(X^n\) in \(\sigma(\prod_{j\le n}U_{m,j})^\ell\),
+\(\sigma:X\mapsto-X\). As \(m\) is even, \(\sigma(1-X^{mj+1})=1+X^{mj+1}\),
+\(\sigma(1-X^{mj+m-1})=1+X^{mj+m-1}\), and \(\sigma(g_{mj+2})=g_{mj+2}\), \(\sigma(g_{mj+m-2})=g_{mj+m-2}\)
+(even exponents). Products of series with nonnegative coefficients have nonnegative coefficients.
+\end{proof}
+
+\begin{lemma}[Lemma 4.1, monotonicity]\label{lem_41_mono}
+\lean{ThetaSignPatterns.lemma_4_1_mono,ThetaSignPatterns.coeffC_zero}
+\leanok
+For even \(m\ge4\), \(\ell\in\mathbb N\): \(n\mapsto(-1)^nc^{[\ell]}_m(n)\) is weakly increasing.
+\end{lemma}
+\begin{uses-statement}
+\ref{def_coeff}
+\end{uses-statement}
+\begin{proof}
+For \(N>n+1\), \((-1)^{n+1}c(n+1)-(-1)^nc(n)\) is the coefficient of \(X^{n+1}\) in
+\((1-X)\,\sigma(\prod_{j<N}U_{m,j})^\ell\) (Lemma~\ref{lem_coeff_stable}). The \(j=0\) factor is
+\((1+X)(1+X^{m-1})g_2g_{m-2}\), and \((1+X)g_2=g_1\), \((1-X)g_1=1\). So
+\((1-X)\sigma(\prod_{j<N}U_{m,j})^\ell=g_1^{\ell-1}\,((1+X^{m-1})g_{m-2})^\ell\prod_{1\le j<N}\sigma(U_{m,j})^\ell\),
+which has nonnegative coefficients (\(\ell\ge1\)).
+\end{proof}
+\begin{uses-proof}
+\ref{lem_coeff_stable}
+\end{uses-proof}
+
+\begin{lemma}[Product identity for \(F_m(-q)\)]\label{lem_Fan_minus}
+\lean{ThetaSignPatterns.Fan_neg_ne_zero,ThetaSignPatterns.Fan_neg_eq}
+\leanok
+Assume \(\mathcal H\), \(m\ge4\) even, \(\Ima\tau>0\). Then \(\vartheta(\tau;m\tau)\vartheta(2\tau;m\tau)\ne0\),
+\((q^{2m};q^{2m})_\infty\ne0\), and
+\(F_m(-q)=-ie^{-\pi i\tau}\frac{(q^m;q^m)_\infty^2\,\vartheta(2\tau;2m\tau)}{(q^{2m};q^{2m})_\infty\,\vartheta(\tau;m\tau)\vartheta(2\tau;m\tau)}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Fan}, \ref{def_qpoch}, \ref{def_theta}
+\end{uses-statement}
+\begin{proof}
+For even \(m\), \(F_m(-q)=\prod_j\frac{(1+q^{mj+1})(1+q^{mj+m-1})}{(1-q^{mj+2})(1-q^{mj+m-2})}\), and
+\(1+x=\frac{1-x^2}{1-x}\) turns the numerator into \(\frac{(q^2,q^{2m-2};q^{2m})_\infty}{(q,q^{m-1};q^m)_\infty}\).
+By E2.3, \(\vartheta(j\tau;m\tau)=-ie^{\pi im\tau/4}e^{-\pi ij\tau}(q^m;q^m)_\infty(q^j,q^{m-j};q^m)_\infty\)
+(\(j=1,2\)) and \(\vartheta(2\tau;2m\tau)=-ie^{\pi im\tau/2}e^{-2\pi i\tau}(q^{2m};q^{2m})_\infty(q^2,q^{2m-2};q^{2m})_\infty\).
+Substituting, all prefactors cancel to \(-ie^{-\pi i\tau}\) and the products give the claim; all
+products are of nonzero factors with summable deviations from \(1\), hence nonzero.
+\end{proof}
+\begin{uses-proof}
+\ref{prop_E23}
+\end{uses-proof}
+
+\begin{lemma}[Lemma 4.2]\label{lem_42}
+\lean{ThetaSignPatterns.lemma_4_2}
+\leanok
+Assume \(\mathcal H\), \(m\ge4\) even, \(\ell\in\mathbb N_0\), \(\Delta\ge0\). As \(z\to0\) in \(R_\Delta\):
+\(F_m(-e^{-z})^\ell\sim\frac{e^{\pi^2\ell/(2mz)}}{2^\ell\sin^\ell(2\pi/m)}\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_Fan}, \ref{def_cone}
+\end{uses-statement}
+\begin{proof}
+Take \(\tau=\frac{iz}{2\pi}\) in Lemma~\ref{lem_Fan_minus}, so \(q=e^{-z}\). With \(Z_1=\frac{mz}{2\pi}\),
+\(Z_2=\frac{mz}\pi\) (still \(\to0\) in \(R_\Delta\)): \(\vartheta(\tau;m\tau)=\vartheta(\frac1miZ_1;iZ_1)\),
+\(\vartheta(2\tau;m\tau)=\vartheta(\frac2miZ_1;iZ_1)\), \(\vartheta(2\tau;2m\tau)=\vartheta(\frac1miZ_2;iZ_2)\);
+apply E3.4 (\(\frac1m,\frac2m\notin\mathbb Z\)) and E6 at \(mz\) and \(2mz\). The exponents add to
+\(-\frac{\pi^2}{3mz}-\frac{\pi^2}{4mz}+\frac{\pi^2}{12mz}+\frac{\pi^2}{mz}=\frac{\pi^2}{2mz}\); the square roots
+cancel (\(\frac{2\pi}{mz}\sqrt{\frac\pi{mz}}\big/(\sqrt{\frac{\pi}{mz}}\frac{2\pi}{mz})=1\)); the constants give
+\(-i\cdot\frac{-2i\sin(\pi/m)}{(-2i)^2\sin(\pi/m)\sin(2\pi/m)}=\frac1{2\sin(2\pi/m)}\); and
+\(e^{-\pi i\tau}=e^{z/2}\to1\). Raise to the \(\ell\)-th power.
+\end{proof}
+\begin{uses-proof}
+\ref{lem_Fan_minus}, \ref{prop_E34}, \ref{prop_E6}
+\end{uses-proof}
+
+\begin{theorem}[Theorem 1.3]\label{thm_13}
+\lean{ThetaSignPatterns.theorem_1_3,ThetaSignPatterns.Main.theorem_1_3}
+\leanok
+Assume \(\mathcal H\). For even \(m\ge4\) and \(\ell\in\mathbb N\), as \(n\to\infty\),
+\[c^{[\ell]}_m(n)\sim\frac{\ell^{1/4}}{2^{\ell+\frac54}m^{\frac14}\sin^\ell(\frac{2\pi}m)}(-1)^n\frac{e^{\pi\sqrt{2\ell n/m}}}{n^{3/4}}.\]
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}
+\end{uses-statement}
+\begin{proof}
+Apply E5 to \(b(n)=(-1)^nc^{[\ell]}_m(n)\), \(\nu=(2\sin\frac{2\pi}m)^{-\ell}>0\), \(\beta=0\),
+\(\gamma=\frac{\pi^2\ell}{2m}\). Nonnegativity and monotonicity: Lemmas~\ref{lem_41_nonneg},
+\ref{lem_41_mono}. By Lemma~\ref{lem_expansion} at \(-q\), \(\sum b(n)q^n=F_m(-q)^\ell\) converges for
+\(|q|<1\); so \(\sum b(n)e^{-zn}=F_m(-e^{-z})^\ell\), and Lemma~\ref{lem_42} gives the real asymptotic
+(\(\Delta=0\)) and, in each \(R_\Delta\), \(|F_m(-e^{-z})^\ell|\le2\nu|e^{\gamma/z}|\le2\nu e^{\gamma/|z|}\).
+E5 yields \(b(n)\sim\frac{\nu\gamma^{1/4}}{2\sqrt\pi n^{3/4}}e^{2\sqrt{\gamma n}}\), and
+\(\frac{\nu\gamma^{1/4}}{2\sqrt\pi}=\frac{\ell^{1/4}}{2^{\ell+5/4}m^{1/4}\sin^\ell(2\pi/m)}\),
+\(2\sqrt{\gamma n}=\pi\sqrt{2\ell n/m}\). Multiply by \((-1)^n\).
+\end{proof}
+\begin{uses-proof}
+\ref{prop_E5}, \ref{lem_41_nonneg}, \ref{lem_41_mono}, \ref{lem_expansion}, \ref{lem_42}
+\end{uses-proof}
+
+\begin{theorem}[Corollary 1.4]\label{thm_14}
+\lean{ThetaSignPatterns.corollary_1_4,ThetaSignPatterns.Main.corollary_1_4}
+\leanok
+For even \(m\ge4\), \(\ell\in\mathbb N\) and all \(n\in\mathbb N_0\):
+\(\sgn c^{[\ell]}_m(n)=(-1)^n\).
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}
+\end{uses-statement}
+\begin{proof}
+\(c^{[\ell]}_m(0)=1\), so by Lemma~\ref{lem_41_mono} \((-1)^nc^{[\ell]}_m(n)\ge1>0\).
+\end{proof}
+\begin{uses-proof}
+\ref{lem_41_mono}
+\end{uses-proof}
+
+% ======================================================================
+\section{Theorem 1.5 and Corollary 1.6}
+
+\begin{lemma}[Phase of Theorem 1.5]\label{lem_phase_15}
+\lean{ThetaSignPatterns.phase_15,ThetaSignPatterns.Tfun_ne_zero,ThetaSignPatterns.Tfun_bound}
+\leanok
+For \(m\ge5\) with \(\gcd(m,6)=1\), \(\lambda,n\in\mathbb N_0\):
+\(\Rea\bigl(\widetilde C_m^\lambda e^{-2\pi inh_1/m}\bigr)=T^{[\lambda]}_m(n)\) with
+\(h_1=\frac{m-\varepsilon_m}6\); \(T^{[\lambda]}_m(n)\ne0\), and \(|T^{[\lambda]}_m(n)|\ge\kappa>0\) for all
+\(n\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_T}
+\end{uses-statement}
+\begin{proof}
+The phase is \(\pi(\frac\lambda6-\frac{\varepsilon_m\lambda}{6m}+\frac{\varepsilon_m\lambda}{m^2})-\frac{2\pi n(m-\varepsilon_m)}{6m}
+=\pi(\frac\lambda6-\frac n3+\varepsilon_m(\frac{2n-\lambda}{6m}+\frac\lambda{m^2}))\). If \(T=0\) then
+\(\lambda m^2-2nm^2+\varepsilon_m((2n-\lambda)m+6\lambda)=3m^2(2j+1)\); modulo \(2\) the left side is
+\(\lambda m(m+1)\equiv0\), the right side is odd. \(T\) has period \(6m\) in \(n\), so the minimum over a
+period is a positive lower bound.
+\end{proof}
+
+\begin{theorem}[Theorem 1.5, asymptotics]\label{thm_15_asymp}
+\lean{ThetaSignPatterns.theorem_1_5,ThetaSignPatterns.Main.theorem_1_5}
+\leanok
+Assume \(\mathcal H\). Let \(m>3\) with \(\gcd(m,6)=1\) and \(\lambda\in\mathbb N\). As \(n\to\infty\),
+\[\gamma^{[\lambda]}_m(n)\sim\Bigl(\frac{(1-\frac1m)(1+\frac1m)\lambda}{6m}\Bigr)^{\frac14}T^{[\lambda]}_m(n)\frac{e^{\pi\sqrt{2(1-\frac1m)(1+\frac1m)\lambda n/(3m)}}}{n^{3/4}}.\]
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}, \ref{def_T}
+\end{uses-statement}
+\begin{proof}
+Apply E1 to \(f=\widetilde f_{m,\lambda}\), \(a=\gamma^{[\lambda]}_m\), \(\delta=-\delta_{m,\lambda}\),
+\(\Lambda=\lambda\widetilde\Lambda_m\), \(\Lambda'=\lambda\widetilde\Lambda'_m\), \(D=\widetilde D_m\),
+\(C_{(h,k)}=e^{2\pi i\delta h/k}\widetilde C_m^\lambda\) resp. its analogue with \(\overline{\widetilde C_m}\).
+Hypotheses: Lemma~\ref{lem_fMod_modular}, Lemma~\ref{lem_fMod_eq}, Lemma~\ref{lem_53} with
+\(\lambda\widetilde A^*=m\Lambda\) (Lemma~\ref{lem_52_eq}), Lemma~\ref{lem_cusp_bound} with
+\(-\lambda A_m(h,k)\le k\Lambda'\) and \(\Lambda'<\Lambda\) (Lemma~\ref{lem_52_gap}). Lemma~\ref{lem_two_cusp}
+with \(h_1=\frac{m-\varepsilon_m}6\), \(B=\widetilde C_m^\lambda\) and Lemma~\ref{lem_phase_15} give the
+claim, with \(2\Lambda/\pi=\frac{(m^2-1)\lambda}{6m^3}\) and \(\sqrt{8\pi\Lambda n}=\pi\sqrt{\frac{2(m^2-1)\lambda n}{3m^3}}\).
+\end{proof}
+\begin{uses-proof}
+\ref{prop_E1}, \ref{lem_fMod_modular}, \ref{lem_fMod_eq}, \ref{lem_52_eq}, \ref{lem_52_gap},
+\ref{lem_53}, \ref{lem_cusp_bound}, \ref{lem_two_cusp}, \ref{lem_phase_15}
+\end{uses-proof}
+
+\begin{theorem}[Theorem 1.5, sign]\label{thm_15_sign}
+\lean{ThetaSignPatterns.theorem_1_5_sign,ThetaSignPatterns.Main.theorem_1_5_sign}
+\leanok
+Assume \(\mathcal H\). For \(m>3\), \(\gcd(m,6)=1\), \(\lambda\in\mathbb N\) and \(n\gg1\):
+\(\sgn\gamma^{[\lambda]}_m(n)=\sgn T^{[\lambda]}_m(n)\).
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}, \ref{def_T}
+\end{uses-statement}
+\begin{proof}
+Theorem~\ref{thm_15_asymp}, Lemma~\ref{lem_phase_15} and Lemma~\ref{lem_sign_equiv}.
+\end{proof}
+\begin{uses-proof}
+\ref{thm_15_asymp}, \ref{lem_phase_15}, \ref{lem_sign_equiv}
+\end{uses-proof}
+
+\begin{lemma}[Reduction (5.3)--(5.4)]\label{lem_T_reduce}
+\lean{ThetaSignPatterns.Rred,ThetaSignPatterns.Tfun_reduce}
+\leanok
+Let \(m\ge5\), \(m\equiv\varepsilon_m\pmod 6\), \(\lambda=6s+a\) with \(0\le a\le5\), and
+\(n\equiv3r+2mj\pmod{6m}\) with \(r,j\in\mathbb Z\), and let \(R\in\mathbb Z\) with
+\(R=\frac{a(\varepsilon_mm-1)}6+r-s\). Then
+\(T^{[\lambda]}_m(n)=(-1)^{r+s}\cos(\pi(\frac Rm+\frac\lambda{m^2}))\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_T}
+\end{uses-statement}
+\begin{proof}
+Write \(n=3r+2mj+6mt\). Then \(-\frac n3+\varepsilon_m\frac{2n}{6m}=-r+\frac{\varepsilon_mr}m-\frac{2j(m-\varepsilon_m)}3-2mt+2\varepsilon_mt\),
+and \(\frac{2j(m-\varepsilon_m)}3\) is an even integer since \(6\mid m-\varepsilon_m\). Hence
+\(T=(-1)^r\cos(\pi(\frac\lambda6+\frac{\varepsilon_m}m(r-\frac\lambda6+\frac\lambda m)))\). Moreover
+\(\frac\lambda6+\frac{\varepsilon_m}m(r-\frac\lambda6+\frac\lambda m)=s+\varepsilon_m(\frac Rm+\frac\lambda{m^2})\),
+because \(\varepsilon_m\frac{a(\varepsilon_mm-1)}{6m}=\frac a6-\frac{\varepsilon_ma}{6m}\); and \(\cos\) is even.
+\(R\in\mathbb Z\) as \(6\mid\varepsilon_mm-1\).
+\end{proof}
+
+\begin{lemma}[Sign (5.5)]\label{lem_sign_cos_eps}
+\lean{ThetaSignPatterns.sign_cos_eps}
+\leanok
+Let \(m\ge3\) odd, \(R\in\mathbb Z\), \(0<\epsilon<\frac1{2m}\), and \(\rho\in[0,2m-1]\) with \(\rho\equiv R\pmod{2m}\). Then
+\(\sgn\cos(\pi(\frac Rm+\epsilon))=(-1)^{\chi_{\rho\in[\frac{m+1}2,\frac{3m-1}2]}}\).
+\end{lemma}
+\begin{proof}
+\(\cos(\pi(\frac Rm+\epsilon))=\cos(\pi(\frac\rho m+\epsilon))\) with \(0\le\rho\le2m-1\), and
+\(\frac\rho m+\epsilon\) lies in \((0,\frac12)\), \((\frac12,\frac32)\) or \((\frac32,2)\) according as
+\(\rho\le\frac{m-1}2\), \(\frac{m+1}2\le\rho\le\frac{3m-1}2\), \(\rho\ge\frac{3m+1}2\).
+\end{proof}
+
+\begin{lemma}[Case analysis of Corollary 1.6]\label{lem_16_cases}
+\lean{ThetaSignPatterns.cases_16}
+\leanok
+Let \(m\ge5\), \(\gcd(m,6)=1\), \(\lambda\in\mathbb N\) with \(\lambda<\frac m2\), \(\lambda=6s+a\)
+(\(0\le a\le5\)), \(0\le r\le2m-1\), \(R=\frac{a(\varepsilon_mm-1)}6+r-s\) and \(\rho\in[0,2m-1]\) with \(\rho\equiv R\pmod{2m}\). Then
+\((-1)^{\chi_{\rho\in[\frac{m+1}2,\frac{3m-1}2]}}=(-1)^{\chi_{r\in S^{[\lambda],\pm}_{m,2}}}\epsilon^{[\lambda]}_m\).
+\end{lemma}
+\begin{uses-statement}
+\ref{def_T}
+\end{uses-statement}
+\begin{proof}
+\(\lambda<\frac m2\) gives \(s<\frac m{12}\). In each of the twelve cases (\(a\in\{0,\dots,5\}\),
+\(\varepsilon_m=\pm1\)) the condition \(\rho\in[\frac{m+1}2,\frac{3m-1}2]\) is equivalent to
+\(r\in[\frac{m+1}2-\frac{a(\varepsilon_mm-1)}6+s,\frac{3m-1}2-\frac{a(\varepsilon_mm-1)}6+s]\bmod 2m\).
+For \(a\in\{0,1,2\}\) and \((a,\varepsilon_m)=(3,1)\) this interval lies in \([0,2m-1]\) and equals
+\(S^{[\lambda],\pm}_{m,2}\) (and \(\epsilon^{[\lambda]}_m=1\)); in the remaining cases its reduction mod
+\(2m\) is the complement of \(S^{[\lambda],\pm}_{m,2}\) in \([0,2m-1]\) (and \(\epsilon^{[\lambda]}_m=-1\),
+with \(\left(\frac m3\right)=-1\) when \(a=3\), \(\varepsilon_m=-1\)). Each case is linear integer
+arithmetic in \(m,s,r\) once \(R\) is located between consecutive multiples of \(2m\).
+\end{proof}
+
+\begin{theorem}[Corollary 1.6]\label{thm_16}
+\lean{ThetaSignPatterns.corollary_1_6,ThetaSignPatterns.Main.corollary_1_6}
+\leanok
+Assume \(\mathcal H\). Let \(\lambda\in\mathbb N\), \(m>3\) with \(m\equiv\pm1\pmod 6\) and
+\(\lambda<\frac m2\), and \(0\le r\le2m-1\), \(0\le j\le2\). For \(n\gg1\) with
+\(n\equiv3r+2mj\pmod{6m}\):
+\(\sgn\gamma^{[\lambda]}_m(n)=(-1)^{r+\lfloor\lambda/6\rfloor+\chi_{r\in S^{[\lambda],\pm}_{m,2}}}\epsilon^{[\lambda]}_m\).
+\end{theorem}
+\begin{uses-statement}
+\ref{def_coeff}, \ref{def_T}
+\end{uses-statement}
+\begin{proof}
+For \(n\gg1\), \(\sgn\gamma^{[\lambda]}_m(n)=\sgn T^{[\lambda]}_m(n)\) (Theorem~\ref{thm_15_sign}). By
+Lemma~\ref{lem_T_reduce}, \(T=(-1)^{r+s}\cos(\pi(\frac Rm+\frac\lambda{m^2}))\), \(s=\lfloor\lambda/6\rfloor\);
+\(0<\frac\lambda{m^2}<\frac1{2m}\), so Lemma~\ref{lem_sign_cos_eps} and Lemma~\ref{lem_16_cases} give the sign.
+\end{proof}
+\begin{uses-proof}
+\ref{thm_15_sign}, \ref{lem_T_reduce}, \ref{lem_sign_cos_eps}, \ref{lem_16_cases}
+\end{uses-proof}
+
+\section{Bundled target}
+
+\begin{theorem}[Complete formalization]\label{thm_main}\lean{ThetaSignPatterns.solution}\leanok
+% Lean: theorem solution (H : ExternalResults) :
+%   Theorem11Asymptotic ∧ Theorem11Sign ∧ Corollary12 ∧
+%   Theorem13 ∧ Corollary14 ∧
+%   Theorem15Asymptotic ∧ Theorem15Sign ∧ Corollary16
+Assume \(\mathcal H\).  The asymptotic and sign conclusions of Theorem~1.1,
+Corollary~1.2, Theorem~1.3, Corollary~1.4, Theorem~1.5, and
+Corollary~1.6 all hold, with the definitions, constants, hypotheses, and
+quantifiers stated above.
+\end{theorem}
+\begin{uses-statement}
+\ref{thm_11_asymp}, \ref{thm_11_sign}, \ref{thm_12}, \ref{thm_13},
+\ref{thm_14}, \ref{thm_15_asymp}, \ref{thm_15_sign}, \ref{thm_16}
+\end{uses-statement}
+\begin{proof}
+Apply the eight preceding results componentwise and collect their conclusions
+into a single conjunction.
+\end{proof}
+\begin{uses-proof}
+\ref{thm_11_asymp}, \ref{thm_11_sign}, \ref{thm_12}, \ref{thm_13},
+\ref{thm_14}, \ref{thm_15_asymp}, \ref{thm_15_sign}, \ref{thm_16}
+\end{uses-proof}
+
+\end{document}

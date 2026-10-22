@@ -1,0 +1,140 @@
+{
+  "paper": "K. Banerjee, K. Bringmann, B. Heim, B. Kane, On sign patterns of Fourier coefficients of theta quotients (manuscript, 15 pp.)",
+  "boundary": "Only the external cited results E1-E6 below are assumed. No result proved in Sections 3-5 of the paper is assumed. Routine Mathlib facts are used freely.",
+  "lean_interface": {
+    "file": "blessed/ThetaSignPatterns/External.lean",
+    "structure": "ThetaSignPatterns.ExternalResults",
+    "mechanism": "explicit hypothesis (H : ExternalResults) on every main theorem; no axiom declarations"
+  },
+  "external_results": [
+    {
+      "id": "E1",
+      "paper": "Theorem 2.1",
+      "field": "rademacherZuckerman",
+      "lean_def": "ThetaSignPatterns.RademacherZuckermanDominant",
+      "sources": [
+        "H. Rademacher, H. Zuckerman, Ann. Math. 39 (1938) 433-462",
+        "H. Zuckerman, Trans. AMS 45 (1939) 298-321",
+        "K. Bringmann, K. Ono, Coefficients of harmonic Maass forms (2008)"
+      ],
+      "form": "dominant-cusp consequence of the exact formula (weight 0); see ASSUMPTIONS.md refinement R1"
+    },
+    {
+      "id": "E2.1",
+      "paper": "Lemma 2.2(1)",
+      "field": "thetaCuspTransform",
+      "lean_def": "ThetaSignPatterns.ThetaCuspTransform",
+      "sources": [
+        "K. Bringmann, B. Heim, B. Kane, J. Math. Anal. Appl. 548 (2025) 129339, Lemma 2.1(1)"
+      ],
+      "form": "weakened: real z>0, unspecified nonzero w-independent constant"
+    },
+    {
+      "id": "E2.3",
+      "paper": "Lemma 2.2(3)",
+      "field": "thetaTripleProduct",
+      "lean_def": "ThetaSignPatterns.ThetaTripleProduct",
+      "sources": [
+        "Jacobi triple product; [4, Lemma 2.1(3)]; S. Zwegers, Mock theta functions (2002), Prop. 1.3"
+      ],
+      "form": "verbatim"
+    },
+    {
+      "id": "E2.5",
+      "paper": "Lemma 2.2(5)",
+      "field": "thetaModular",
+      "lean_def": "ThetaSignPatterns.ThetaModular",
+      "sources": [
+        "M. Eichler, D. Zagier, The theory of Jacobi forms (1985)",
+        "S. Zwegers, Mock theta functions (2002)"
+      ],
+      "form": "for lambda in Q \\ Z: weight-1/2 weakly holomorphic form with unitary multiplier on a finite-index subgroup, bounded below at every cusp"
+    },
+    {
+      "id": "E3.1",
+      "paper": "Lemma 2.3(1)",
+      "field": "thetaAsymp1",
+      "lean_def": "ThetaSignPatterns.ThetaAsymp1",
+      "sources": [
+        "[4, Lemma 2.1(3)]"
+      ],
+      "form": "weakened: asymptotic equivalence along vertical lines"
+    },
+    {
+      "id": "E3.2",
+      "paper": "Lemma 2.3(2)",
+      "field": "thetaAsymp2",
+      "lean_def": "ThetaSignPatterns.ThetaAsymp2",
+      "sources": [
+        "[4, Lemma 2.1(3)]"
+      ],
+      "form": "weakened: along vertical lines"
+    },
+    {
+      "id": "E3.3",
+      "paper": "Lemma 2.3(3)",
+      "field": "thetaAsymp3",
+      "lean_def": "ThetaSignPatterns.ThetaAsymp3",
+      "sources": [
+        "[4]; Lemma 2.2(3),(4)"
+      ],
+      "form": "weakened: real z -> 0+"
+    },
+    {
+      "id": "E3.4",
+      "paper": "Lemma 2.3(4)",
+      "field": "thetaAsymp4",
+      "lean_def": "ThetaSignPatterns.ThetaAsymp4",
+      "sources": [
+        "[4]; Lemma 2.2(3),(4)"
+      ],
+      "form": "verbatim, z -> 0 in every cone R_Delta"
+    },
+    {
+      "id": "E4",
+      "paper": "Lemma 2.4",
+      "field": "besselI1Asymp",
+      "lean_def": "ThetaSignPatterns.BesselI1Asymp",
+      "sources": [
+        "G. N. Watson, A treatise on the theory of Bessel functions, 7.23"
+      ],
+      "form": "verbatim"
+    },
+    {
+      "id": "E5",
+      "paper": "Proposition 2.5",
+      "field": "ingham",
+      "lean_def": "ThetaSignPatterns.Ingham",
+      "sources": [
+        "A. Ingham, Ann. Math. 42 (1941) 1075-1090",
+        "K. Bringmann, C. Jennings-Shaffer, K. Mahlburg, Ramanujan J. 61 (2021) 55-86, Theorem 1.1"
+      ],
+      "form": "verbatim plus hypothesis nu > 0"
+    },
+    {
+      "id": "E6",
+      "paper": "Lemma 2.6",
+      "field": "etaAsymp",
+      "lean_def": "ThetaSignPatterns.EtaAsymp",
+      "sources": [
+        "Dedekind eta inversion; G. Andrews, The theory of partitions (1980)"
+      ],
+      "form": "verbatim, z -> 0 in every cone"
+    }
+  ],
+  "proved_not_assumed": [
+    "Lemma 2.2(2) (quasi-periodicity)",
+    "level raising / quotients of modular forms",
+    "Lemmas 3.1-3.3, 4.1, 4.2, 5.1-5.3",
+    "Theorems 1.1, 1.3, 1.5",
+    "Corollaries 1.2, 1.4, 1.6"
+  ],
+  "not_used": [
+    "Lemma 2.2(4) (modular inversion)"
+  ],
+  "formalization_provenance": {
+    "producer": "AxiomProver",
+    "coding_agent": "AxiomCode",
+    "verifier": "Axile"
+  }
+}
